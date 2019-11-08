@@ -32,4 +32,18 @@ router.route('/add').post((req, res) =>{
         .catch(err => res.status(400).json('Error: '+err))
 });
 
+// UPDATE BUG REGISTRY
+
+router.route('/update/:id').put((req, res) =>{
+    const id = req.params.id;
+    Bug.findById(id)
+        .then(bug => {
+            Object.assign(bug, req.body);
+            bug.save()
+                .then(() => res.json('Bug info. Updated!'))
+                .catch(err => res.status(400).json('Error: ' + err) );
+        })
+        .catch(err => res.status(400).json('Error: ' + err) );
+} )
+
 module.exports = router;
