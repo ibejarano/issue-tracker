@@ -46,4 +46,12 @@ router.route('/update/:id').put((req, res) =>{
         .catch(err => res.status(400).json('Error: ' + err) );
 } )
 
+// DELETE BUG REGISTRY 
+router.route('/:id').delete((req,res) => {
+    const id = req.params.id;
+    Bug.findByIdAndDelete(id)
+        .then(() => res.json('Bug #' + id + ' deleted!'))
+        .catch(err => res.status(400).json('Cannot delete Err: '+ err) );
+})
+
 module.exports = router;
