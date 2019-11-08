@@ -7,8 +7,7 @@ const bugSchema = new Schema({
     assignee: {type: String, required: false},
     state: {type: String, required: true},
     resolution: {type: String, required: true},
-    shortDescription: { type: String, required: true},
-    dateOpen: { type: Date, required: true },
+    shortDescription: { type: String, required: true}
     }, {
         timestamps: true,
     }
