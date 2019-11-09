@@ -9,6 +9,13 @@ router.route('/').get((req,res) => {
         .catch(err => res.status(400).json('Error: '+err));
 })
 
+// GET A SINGLE BUG INFO
+router.route('/update/:id').get((req,res) => {
+    Bug.findById(req.params.id)
+        .then(bug => res.json(bug))
+        .catch(err => res.status(400).json('Error: '+ err));
+})
+
 // ADD A BUG
 router.route('/add').post((req, res) =>{
     const severity = req.body.severity;
@@ -44,7 +51,7 @@ router.route('/update/:id').put((req, res) =>{
                 .catch(err => res.status(400).json('Error: ' + err) );
         })
         .catch(err => res.status(400).json('Error: ' + err) );
-} )
+})
 
 // DELETE BUG REGISTRY 
 router.route('/:id').delete((req,res) => {
