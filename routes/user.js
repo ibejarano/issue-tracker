@@ -32,5 +32,23 @@ router.route('/register').post((req, res) => {
 
 })
 
+// LOGIN
+router.route('/login').post((req, res, next) => {
+    const password = req.body.password
+    const email = req.body.email
+    if(email && password){
+        User.authenticate(email, password, function(err, user){
+            if(err || !user){
+                return res.json('Wrong email or password')
+            } else {
+                req.session.userId = user._id;
+                return res.json('login succesful!')
+            }
+        })
+    } else {
+        return res.status(401).json('Email and password are required.');
+    }
+});
+
 
 module.exports = router;
