@@ -14,19 +14,25 @@ router.route('/register').post((req, res) => {
     const password = req.body.password
     const passwordConf = req.body.passwordConf
     const email = req.body.email
+    const isDev = req.body.isDev
 
     if (password === passwordConf){
         const newUser = new User({
             username,
             email,
-            password
+            password,
+            isDev
         })
         newUser.save()
-        .then( () => res.json('new user registered!') )
+        .then( () => {
+            if (isDev){
+                res.json('new Developer registered!')
+            } else {
+                res.json('new User registered!')} 
+            })
         .catch(err => res.status(400).json('Error ocurred: '+ err))
     }
     else{
-
         res.status(400).json('Passwords dont match!')
     }
 

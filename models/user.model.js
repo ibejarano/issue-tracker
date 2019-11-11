@@ -18,6 +18,14 @@ const UserSchema = new Schema({
     password: {
         type: String,
         required: true
+    },
+    isAdmin: {
+        type: Boolean,
+        required: false,
+    },
+    isDev: {
+        type: Boolean,
+        required: true
     }
 });
 
