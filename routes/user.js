@@ -15,13 +15,15 @@ router.route('/register').post((req, res) => {
     const passwordConf = req.body.passwordConf
     const email = req.body.email
     const isDev = req.body.isDev
+    const isAdmin = req.body.isAdmin
 
     if (password === passwordConf){
         const newUser = new User({
             username,
             email,
             password,
-            isDev
+            isDev,
+            isAdmin
         })
         newUser.save()
         .then( () => {

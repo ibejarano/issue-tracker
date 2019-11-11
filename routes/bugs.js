@@ -48,6 +48,7 @@ router.route('/update/:id').put((req, res) =>{
             Object.assign(bug, req.body);
             bug.save()
                 .then(() => res.json('Bug info. Updated!'))
+                .then(()=> res.redirect('/'))
                 .catch(err => res.status(400).json('Error: ' + err) );
         })
         .catch(err => res.status(400).json('Error: ' + err) );
