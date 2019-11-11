@@ -20,10 +20,10 @@ app.use(express.json());
 app.use(express.urlencoded({extended: false}) )
 
 const bugsRouter = require('./routes/bugs');
-// const userRouter = require('./routes/users');
+const userRouter = require('./routes/user');
 
 app.use('/bugs', bugsRouter);
-// app.use('/users', userRouter);
+app.use('/user', userRouter);
 
 
 app.listen(port , () => {
