@@ -9,35 +9,36 @@ router.route('/').get((req,res) =>{
 })
 
 // REGISTER NEW USER
-router.route('/register').post((req, res) => {
-    const username = req.body.username
-    const password = req.body.password
-    const passwordConf = req.body.passwordConf
-    const email = req.body.email
-    const isDev = req.body.isDev
-    const isAdmin = req.body.isAdmin
-
-    if (password === passwordConf){
-        const newUser = new User({
-            username,
-            email,
-            password,
-            isDev,
-            isAdmin
-        })
-        newUser.save()
-        .then( () => {
-            if (isDev){
-                res.json('new Developer registered!')
-            } else {
-                res.json('new User registered!')} 
+router.route('/register').post( async (req, res) => {
+    try {
+        const {username, password, passwordConf, email, isDev, isAdmin} = req.body
+        if (password === passwordConf){
+            const newUser = new User({
+                username,
+                email,
+                password,
+                isDev,
+                isAdmin
             })
-        .catch(err => res.status(400).json('Error ocurred: '+ err))
+            const savedUser = await newUser.save()
+            if (savedUser && savedUser.isDev){
+                res.json('new Developer registered!')
+            } else if (savedUser){
+                res.json('new User registered!')
+            } else {
+                throw new Error('Error saving user!')    
+            }
+        }
+        else {
+            //console.log('Passwords dont match!')
+            //res.json('pass dont match')
+            throw new Error('Passwords dont match!')
+        }
+    } catch(error){
+        res.status(400).json({
+            type: 'error',
+            message: error.message})
     }
-    else{
-        res.status(400).json('Passwords dont match!')
-    }
-
 })
 
 // LOGIN
@@ -45,15 +46,15 @@ router.route('/login').post( async (req, res) =>{
         try {
             const { email , password} = req.body;
             const user = await User.authenticate(email, password);
-            if(!user){
-                return res.status(401).send(({error: 'Login failed! Check inputs'}))
-            }
             //const token = await user.generateAuthToken();
             //res.send({user, token})
             return res.status(200).json('Login succesful!')
         } 
         catch(error){
-            return res.status(400).json(error)
+            return res.status(400).json({
+                type: 'error',
+                message: error.message
+            })
         }
     }
 );
