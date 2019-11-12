@@ -36,15 +36,12 @@ const UserSchema = new Schema({
     }]
 });
 
-UserSchema.pre('save', function(next){
+UserSchema.pre('save', async function(next){
     let user = this;
-    bcrypt.hash(user.password, 10 , function(err, hash){
-        if(err){
-            return next(err)
-        }
-        user.password = hash;
-        next();
-    });
+    if (user.isModified('password')){
+        user.password = await bcrypt.hash(user.password, 10)
+    }
+    next();
 });
 
 UserSchema.statics.authenticate = async (email, password) => {
