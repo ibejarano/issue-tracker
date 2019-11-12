@@ -48,7 +48,7 @@ UserSchema.pre('save', function(next){
 });
 
 UserSchema.statics.authenticate = async (email, password) => {
-    const user = await User.findOne({email}).exec();
+    const user = await User.findOne({email});
     if (!user) {
         throw new Error({ error: 'Invalid login credentials' })
     }
@@ -59,7 +59,7 @@ UserSchema.statics.authenticate = async (email, password) => {
     return user
 }
 
-UserSchema.methods.generateAuthToken = async function(){
+UserSchema.methods.generateAuthToken = async () => {
     const user = this;
     const token = jwt.sign({_id: user._id}, process.env.JWT_KEY)
     user.tokens = user.tokens.concat({token});

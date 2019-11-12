@@ -1,5 +1,5 @@
 const router = require('express').Router();
-let User = require('../models/user.model');
+const User = require('../models/user.model');
 
 // GET ALL THE USERS
 router.route('/').get((req,res) =>{
@@ -41,17 +41,19 @@ router.route('/register').post((req, res) => {
 })
 
 // LOGIN
-router.route('/login').post( async (req, res, next) =>{
+router.route('/login').post( async (req, res) =>{
         try {
             const { email , password} = req.body;
             const user = await User.authenticate(email, password);
             if(!user){
                 return res.status(401).send(({error: 'Login failed! Check inputs'}))
             }
-            const token = await user.generateAuthToken();
-            res.send({user, token})
-        } catch(error){
-            res.status(400).send(error)
+            //const token = await user.generateAuthToken();
+            //res.send({user, token})
+            return res.status(200).json('Login succesful!')
+        } 
+        catch(error){
+            return res.status(400).json(error)
         }
     }
 );
