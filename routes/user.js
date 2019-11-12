@@ -41,22 +41,19 @@ router.route('/register').post((req, res) => {
 })
 
 // LOGIN
-router.route('/login').post((req, res, next) => {
-    const password = req.body.password
-    const email = req.body.email
-    if(email && password){
-        User.authenticate(email, password, function(err, user){
-            if(err || !user){
-                return res.json('Wrong email or password')
-            } else {
-                req.session.userId = user._id;
-                return res.json('login succesful!')
+router.route('/login').post( async (req, res, next) =>{
+        try {
+            const { email , password} = req.body;
+            const user = await User.authenticate(email, password);
+            if(!user){
+                return res.status(401).send(({error: 'Login failed! Check inputs'}))
             }
-        })
-    } else {
-        return res.status(401).json('Email and password are required.');
+            const token = await user.generateAuthToken();
+            res.send({user, token})
+        } catch(error){
+            res.status(400).send(error)
+        }
     }
-});
-
+);
 
 module.exports = router;

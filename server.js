@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const session = require('express-session');
+const auth = require('./middleware/auth');
 
 require('dotenv').config();
 
@@ -24,6 +25,8 @@ app.use(session({
     resave: true,
     saveUninitialized: false
 }))
+
+app.use( '/bugs', auth );
 
 const bugsRouter = require('./routes/bugs');
 const userRouter = require('./routes/user');
