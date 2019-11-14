@@ -22,18 +22,18 @@ const UserSchema = new Schema({
     },
     isAdmin: {
         type: Boolean,
-        required: true,
+        required: false,
+        default: false
     },
     isDev: {
         type: Boolean,
-        required: true
+        required: false,
+        default: false
     },
-    tokens: [{
-        token: {
-            type: String,
-            required: true
-        }
-    }]
+    token: {
+        type: String,
+        required: false
+    }
 });
 
 UserSchema.pre('save', async function(next){
@@ -59,7 +59,7 @@ UserSchema.statics.authenticate = async (email, password) => {
 UserSchema.methods.generateAuthToken = async function() {
     const user = this;
     const token = jwt.sign({_id: user._id}, process.env.JWT_KEY)
-    user.tokens = user.tokens.concat({token});
+    user.tokens = token
     await user.save()
     return token
 }

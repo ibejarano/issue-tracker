@@ -47,7 +47,8 @@ router.route('/login').post( async (req, res) =>{
             const { email , password} = req.body;
             const user = await User.authenticate(email, password);
             const token = await user.generateAuthToken();
-            res.send({user, token})
+            res.json('Token generated! ' + token)
+            res.send({user})
             return res.status(200).json('Login succesful!')
         } 
         catch(error){
