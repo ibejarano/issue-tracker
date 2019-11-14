@@ -51,12 +51,24 @@ router.route('/login').post( async (req, res) =>{
             return res.status(200).json('Login succesful!')
         } 
         catch(error){
-            return res.status(400).json({
+            return res.status(401).json({
                 type: 'error',
                 message: error.message
             })
         }
     }
 );
+
+router.route('/logout').post( async (req, res) =>{
+    try {
+        const user = await User.findById({_id: req.body.id})
+        console.log('finded',user)
+        user.token = ''
+        await user.save()
+        res.send('Logout succesful!')
+    } catch(error){
+        res.status(500).send(error)
+    }
+});
 
 module.exports = router;
