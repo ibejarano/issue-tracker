@@ -1,5 +1,5 @@
 const router = require('express').Router();
-let Bug = require('../models/bug.model');
+const Bug = require('../models/bug.model');
 
 
 // SHOW BUGS
@@ -11,7 +11,8 @@ router.route('/').get((req,res) => {
 })
 
 // GET A SINGLE BUG INFO
-router.route('/update/:id').get((req,res) => {
+router.route('/:id').get((req,res) => {
+    console.log('Bug request #', req.params.id)
     Bug.findById(req.params.id)
         .then(bug => res.json(bug))
         .catch(err => res.status(400).json('Error: '+ err));
@@ -62,6 +63,21 @@ router.route('/:id').delete((req,res) => {
     Bug.findByIdAndDelete(id)
         .then(() => res.json('Bug #' + id + ' deleted!'))
         .catch(err => res.status(400).json('Cannot delete Err: '+ err) );
+})
+
+// ADD A COMMENT TO A BUG
+router.route('/add-comment/:id').put( async (req, res) =>{
+    const id = req.params.id;
+    try{
+        const bug = await Bug.findById(id)
+        bug.comments.push(req.body)
+        const saved = await bug.save()
+        console.log(saved);
+        res.status(200).json(saved)
+    } catch(error){
+        console.log('Error', error)
+        res.status(400).json(error)
+    }
 })
 
 module.exports = router;
