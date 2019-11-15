@@ -5,7 +5,8 @@ let Bug = require('../models/bug.model');
 // SHOW BUGS
 router.route('/').get((req,res) => {
     Bug.find()
-        .then(bug => res.json(bug))
+        .then(bugs => {
+            res.json({bugs, user: req.user})})
         .catch(err => res.status(400).json('Error: '+err));
 })
 
@@ -33,6 +34,7 @@ router.route('/add').post((req, res) =>{
         resolution,
         shortDescription
     })
+
 
     newBug.save()
         .then(()=> res.json('New Bug Registered'))
