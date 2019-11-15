@@ -5,7 +5,6 @@ const auth = async(req,res,next) => {
     const token = req.header('Authorization').replace('Bearer ','');
     try {
         const data = await jwt.verify(token, process.env.JWT_KEY);
-        console.log('data', data)
         try {
             const user = await User.findOne({ _id: data._id});
             if (!user) {

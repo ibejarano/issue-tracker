@@ -61,7 +61,6 @@ router.route('/login').post( async (req, res) =>{
 router.route('/logout').post( async (req, res) =>{
     try {
         const user = await User.findById({_id: req.body.id})
-        console.log('finded',user)
         user.token = ''
         await user.save()
         res.send('Logout succesful!')
