@@ -47,11 +47,10 @@ router.route('/login').post( async (req, res) =>{
             const { email , password} = req.body;
             const user = await User.authenticate(email, password);
             const token = await user.generateAuthToken();
-            res.send({user, token})
-            return res.status(200).json('Login succesful!')
+            res.status(200).send({user, token})
         } 
         catch(error){
-            return res.status(401).json({
+            res.status(401).json({
                 type: 'error',
                 message: error.message
             })

@@ -45,15 +45,20 @@ UserSchema.pre('save', async function(next){
 });
 
 UserSchema.statics.authenticate = async (email, password) => {
-    const user = await User.findOne({email});
-    if (!user) {
-        throw new Error('Invalid user')
+    try{
+
+        const user = await User.findOne({email});
+        if (!user) {
+            throw new Error('Invalid user')
+        }
+        const isPasswordMatch = await bcrypt.compare(password, user.password)
+        if(!isPasswordMatch){
+            throw new Error('Invalid login credentials')
+        }
+        return user
+    } catch(err){
+        return err
     }
-    const isPasswordMatch = await bcrypt.compare(password, user.password)
-    if(!isPasswordMatch){
-        throw new Error('Invalid login credentials')
-    }
-    return user
 }
 
 UserSchema.methods.generateAuthToken = async function() {
