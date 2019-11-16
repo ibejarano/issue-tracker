@@ -68,6 +68,8 @@ router.route('/:id').delete((req,res) => {
 // ADD A COMMENT TO A BUG
 router.route('/add-comment/:id').put( async (req, res) =>{
     const id = req.params.id;
+    const author = req.user.username;
+    req.body.author = author
     try{
         const bug = await Bug.findById(id)
         bug.comments.push(req.body)
