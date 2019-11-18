@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const auth = require('./middleware/auth');
+const user = require('./middleware/user')
 
 require('dotenv').config();
 
@@ -22,6 +23,8 @@ app.use(express.urlencoded({extended: false}) )
 
 
 app.use( '/bugs', auth );
+
+app.use( '/user/info', user );
 
 const bugsRouter = require('./routes/bugs');
 const userRouter = require('./routes/user');

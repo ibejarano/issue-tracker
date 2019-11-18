@@ -8,6 +8,11 @@ router.route('/').get((req,res) =>{
         .catch((err) => res.status(400).json('Error ocurred!' + err))
 })
 
+// GET ONE USER INFO
+router.route('/info').get((req,res) =>{
+    res.json(req.user)
+})
+
 // REGISTER NEW USER
 router.route('/register').post( async (req, res) => {
     try {

@@ -58,11 +58,14 @@ router.route('/update/:id').put((req, res) =>{
 })
 
 // DELETE BUG REGISTRY 
-router.route('/:id').delete((req,res) => {
+router.route('/:id').delete( async (req,res) => {
     const id = req.params.id;
-    Bug.findByIdAndDelete(id)
-        .then(() => res.json('Bug #' + id + ' deleted!'))
-        .catch(err => res.status(400).json('Cannot delete Err: '+ err) );
+    try{
+        const res = await Bug.findByIdAndDelete(id);
+        res.status(200).json('Bug #' + id + ' deleted!')
+    } catch(error) {
+        res.status(500).json('Error deleting the bug!: ', error)
+    }
 })
 
 // ADD A COMMENT TO A BUG
