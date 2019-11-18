@@ -2,12 +2,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema ;
 
 const bugSchema = new Schema({
-    severity: {type: String, required: true },
     priority: {type: String, required: true},
     assignee: {type: String, required: false},
-    state: {type: String, required: true},
-    resolution: {type: String, required: true},
-    shortDescription: { type: String, required: true},
+    status: {type: String, required: true},
+    type: {type: String, required: true},
+    title: { type: String, required: true},
     comments: [
         {
             text: {type: String, required: true},

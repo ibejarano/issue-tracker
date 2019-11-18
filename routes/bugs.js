@@ -19,27 +19,26 @@ router.route('/:id').get((req,res) => {
 })
 
 // ADD A BUG
-router.route('/add').post((req, res) =>{
-    const severity = req.body.severity;
-    const priority = req.body.priority;
-    const assignee = req.body.assignee;
-    const state = req.body.state;
-    const resolution = req.body.resolution;
-    const shortDescription = req.body.shortDescription;
+router.route('/add').post( async (req, res) =>{
+    try{
+        const priority = req.body.priority;
+        const status = req.body.status;
+        const title = req.body.title;
+        const type = req.body.type;
+        const newBug = new Bug({
+            priority,
+            status,
+            title,
+            type
+        })
+    
+        const saveResponse =  await newBug.save();
+        console.log('New Bug Registered!');
+        res.status(200).json(saveResponse)
 
-    const newBug = new Bug({
-        severity,
-        priority,
-        assignee,
-        state,
-        resolution,
-        shortDescription
-    })
-
-
-    newBug.save()
-        .then(()=> res.json('New Bug Registered'))
-        .catch(err => res.status(400).json('Error: '+err))
+    } catch(error){
+        console.log(error.toString())
+    }
 });
 
 // UPDATE BUG REGISTRY
