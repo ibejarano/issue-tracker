@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user.model');
 
 const userInfo = async(req,res,next) => {
+    console.log('MIDDLEWARE: Getting user info')
     try {
        const token = req.header('Authorization').replace('Bearer ','');
        try {

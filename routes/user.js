@@ -10,7 +10,8 @@ router.route('/').get((req,res) =>{
 
 // GET ONE USER INFO
 router.route('/info').get((req,res) =>{
-    res.json(req.user)
+    console.log('INFO: /route/info', req.user.username)
+    res.status(200).json(req.user)
 })
 
 // REGISTER NEW USER
@@ -46,30 +47,16 @@ router.route('/register').post( async (req, res) => {
     }
 })
 
-// LOGIN
-router.route('/login').post( async (req, res) =>{
-        try {
-            const { email , password} = req.body;
-            const user = await User.authenticate(email, password);
-            const token = await user.generateAuthToken();
-            res.status(200).send({user, token})
-        } 
-        catch(error){
-            res.status(401).json({
-                type: 'error',
-                message: error.message
-            })
-        }
-    }
-);
+// LOGOUT
 
 router.route('/logout').post( async (req, res) =>{
     try {
-        const user = await User.findById({_id: req.body.id})
-        user.token = ''
-        await user.save()
+        console.log('INFO: Logging out User', req.user)
+        req.user.token = ''
+        await req.user.save()
         res.send('Logout succesful!')
     } catch(error){
+        console.log(error.toString())
         res.status(500).send(error)
     }
 });
