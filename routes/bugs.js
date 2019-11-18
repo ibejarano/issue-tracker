@@ -43,17 +43,21 @@ router.route('/add').post( async (req, res) =>{
 
 // UPDATE BUG REGISTRY
 
-router.route('/update/:id').put((req, res) =>{
-    const id = req.params.id;
-    Bug.findById(id)
-        .then(bug => {
-            Object.assign(bug, req.body);
-            bug.save()
-                .then(() => res.json('Bug info. Updated!'))
-                .then(()=> res.redirect('/'))
-                .catch(err => res.status(400).json('Error: ' + err) );
-        })
-        .catch(err => res.status(400).json('Error: ' + err) );
+router.route('/update/:id').put(async (req, res) =>{
+    try{
+
+        console.log('Editing bug #', req.params.id);
+        const id = req.params.id
+        const bug = await Bug.findById(id);
+        console.log('Bug finded in db! #:', bug._id);
+        Object.assign(bug, req.body);
+        const resFromDb = await bug.save();
+        console.log('Succesful bug update!')
+        res.status(200).json(resFromDb);
+    } catch(error){
+        console.log('Error ocurred during bug editing!', error.toString());
+        res.status(500).json(error);
+    }
 })
 
 // DELETE BUG REGISTRY 

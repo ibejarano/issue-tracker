@@ -3,6 +3,7 @@ const User = require('../models/user.model');
 
 // GET ALL THE USERS
 router.route('/').get((req,res) =>{
+    console.log('Getting all users info!')
     User.find()
         .then( data => res.json(data) )
         .catch((err) => res.status(400).json('Error ocurred!' + err))
