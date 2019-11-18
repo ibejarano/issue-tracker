@@ -64,7 +64,7 @@ router.route('/:id').delete( async (req,res) => {
         const res = await Bug.findByIdAndDelete(id);
         res.status(200).json('Bug #' + id + ' deleted!')
     } catch(error) {
-        res.status(500).json('Error deleting the bug!: ', error)
+        res.status(500).json('Error deleting the bug!')
     }
 })
 

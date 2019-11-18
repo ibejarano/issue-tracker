@@ -32,6 +32,10 @@ const userRouter = require('./routes/user');
 app.use('/bugs', bugsRouter);
 app.use('/user', userRouter);
 
+app.use(function(error, req, res, next) {
+    console.log(error.toString())
+    res.json({ message: error.message });
+  });
 
 app.listen(port , () => {
     console.log(`Server is running on port: ${port}`);
