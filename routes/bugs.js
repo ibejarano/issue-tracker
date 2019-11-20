@@ -6,7 +6,7 @@ router.route('/').get(issueHandler.getAll)
 
 router.route('/:id').get(issueHandler.getById)
 
-router.route('/add').post(issueHandler.add);
+router.route('/').post(issueHandler.add);
 
 router.route('/:id').put(issueHandler.update)
 
