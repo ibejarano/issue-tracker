@@ -14,7 +14,7 @@ router.route('/').get((req,res) => {
 router.route('/:id').get((req,res) => {
     console.log('Bug request #', req.params.id)
     Bug.findById(req.params.id)
-        .then(bug => res.json(bug))
+        .then(bug => res.json({bug, user:req.user}))
         .catch(err => res.status(400).json('Error: '+ err));
 })
 

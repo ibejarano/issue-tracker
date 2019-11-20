@@ -33,6 +33,8 @@ const userRouter = require('./routes/user');
 app.post('/login', async (req, res) =>{
     try {
         const { email , password} = req.body;
+        console.log('Logging user with email', email);
+        console.log('Logging user with pass', password);
         const userAuth = await User.authenticate(email, password);
         const token = await userAuth.generateAuthToken();
         res.status(200).send({userAuth, token})
