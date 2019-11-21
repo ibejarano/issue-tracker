@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const auth = require('./middleware/auth');
 const user = require('./middleware/user')
 const User = require('./models/user.model');
+const userHandler = require('./controllers/user');
 
 require('dotenv').config();
 
@@ -30,23 +31,8 @@ app.use( '/user', user );
 const bugsRouter = require('./routes/bugs');
 const userRouter = require('./routes/user');
 
-app.post('/login', async (req, res) =>{
-    try {
-        const { email , password} = req.body;
-        console.log('Logging user with email', email);
-        console.log('Logging user with pass', password);
-        const userAuth = await User.authenticate(email, password);
-        const token = await userAuth.generateAuthToken();
-        res.status(200).send({userAuth, token})
-    } 
-    catch(error){
-        res.status(401).json({
-            type: 'error',
-            message: error.message
-        })
-    }
-}
-);
+app.post('/login', userHandler.login);
+app.post('/register', userHandler.register);
 
 app.use('/bugs', bugsRouter);
 app.use('/user', userRouter);

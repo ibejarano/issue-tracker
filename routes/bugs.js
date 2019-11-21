@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const Bug = require('../models/bug.model');
 const issueHandler = require('../controllers/issue-handlers');
 
 router.route('/').get(issueHandler.getAll)
