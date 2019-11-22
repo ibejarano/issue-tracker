@@ -3,9 +3,10 @@ const User = require('../models/user.model');
 
 const auth = async(req,res,next) => {
     try{
-        console.log('auth to update add or modify issue!')
+        console.log('[AUTH Middleware]')
+        console.log("headers", req.header("Authorization"));
         const token = req.header('Authorization').replace('Bearer ','');
-        const data = await jwt.verify(token, process.env.JWT_KEY);
+        const data = jwt.verify(token, process.env.JWT_KEY);
         const user = await User.findOne({ _id: data._id});
             if (!user) {
             next( new Error('User ID not finded!'))

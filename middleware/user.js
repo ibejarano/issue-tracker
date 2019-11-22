@@ -1,29 +1,22 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/user.model');
+const jwt = require("jsonwebtoken");
+const User = require("../models/user.model");
 
-const userInfo = async(req,res,next) => {
-    console.log('MIDDLEWARE: Getting user info')
-    try {
-       const token = req.header('Authorization').replace('Bearer ','');
-       try {
-        const data = await jwt.verify(token, process.env.JWT_KEY);
-        try {
-            const user = await User.findOne({ _id: data._id});
-            if (!user) {
-                next( new Error('Unauthorized') )
-            }
-            req.user = user;
-            next();
-        } catch(error){
-            next( new Error('Not authorized to acces this resource') )
-        }
-    } catch(error){
-        res.status(401).send({error: 'Cannot verify with JWT'})
+const userInfo = async (req, res, next) => {
+  try {
+    console.log("[USER Middleware]");
+    console.log("headers", req.header("Authorization"));
+    const token = req.header("Authorization").replace("Bearer ", "");
+    const data = await jwt.verify(token, process.env.JWT_KEY);
+    const user = await User.findOne({ _id: data._id });
+    if (!user) {
+      throw new Error("Unauthorized");
     }
-    } catch(error) {
-        throw new Error('Unauthorized')
-    }
-
-}
+    req.user = user;
+    next();
+  } catch (error) {
+    console.log("MIDDLEWARE ERROR:", error.toString());
+    res.status(500).json("Unauthorized acces because: " + error.toString());
+  }
+};
 
 module.exports = userInfo;

@@ -6,7 +6,7 @@ router.route('/').get( userHandler.getAll )
 
 router.route('/info').get( userHandler.getInfo )
 
-router.route('/logout').post( userHandler.logout );
+router.route('/logout').put( userHandler.logout );
 
 router.route('/:id').delete( userHandler.delete );
 

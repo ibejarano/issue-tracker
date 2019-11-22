@@ -64,7 +64,7 @@ exports.login = async (req, res) =>{
 exports.logout = async (req, res) => {
   try {
     console.log("INFO: Logging out User", req.user);
-    req.user.token = "";
+    req.user.token = req.body.token;
     await req.user.save();
     res.status(200).json("Logout succesful!");
   } catch (error) {
