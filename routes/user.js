@@ -8,4 +8,6 @@ router.route('/info').get( userHandler.getInfo )
 
 router.route('/logout').post( userHandler.logout );
 
+router.route('/:id').delete( userHandler.delete );
+
 module.exports = router;

@@ -72,3 +72,14 @@ exports.logout = async (req, res) => {
     res.status(500).json(error.toString());
   }
 };
+
+exports.delete = async (req, res) => {
+  try {
+      const deleteResponse = await User.findByIdAndDelete(req.params.id);
+      console.log('User deleted!', deleteResponse);
+      res.status(200).json('User deleted!')
+  } catch (error) {
+      console.log('Error deleting issue!')
+      res.status(500).json('Error deleting the issue!')
+  }
+}
