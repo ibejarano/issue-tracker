@@ -6,7 +6,7 @@ const bugSchema = new Schema({
     assignee: { 
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
-    },
+        },
     status: {type: String, required: true},
     type: {type: String, required: true},
     title: { type: String, required: true},

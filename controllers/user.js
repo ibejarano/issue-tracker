@@ -1,4 +1,5 @@
 const User = require("../models/user.model");
+const Bug = require("../models/bug.model");
 
 exports.getAll = async (req, res) => {
   console.log("Getting all users info!");
@@ -11,9 +12,9 @@ exports.getAll = async (req, res) => {
   }
 };
 
-exports.getInfo = (req, res) => {
-  console.log("INFO: /route/info", req.user.username);
-  res.status(200).json(req.user);
+exports.getInfo = async (req, res) => {
+  const issues = await Bug.find({assignee: req.user._id});
+  res.status(200).json({user:req.user , issues});
 };
 
 exports.register = async (req, res) => {

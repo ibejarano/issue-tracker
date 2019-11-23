@@ -33,6 +33,10 @@ const UserSchema = new Schema({
     token: {
         type: String,
         required: false
+    },
+    issues: {
+        type: Schema.Types.ObjectId,
+        ref: "Bug"
     }
 });
 
