@@ -3,7 +3,10 @@ const Schema = mongoose.Schema ;
 
 const bugSchema = new Schema({
     priority: {type: String, required: true},
-    assignee: {type: String, required: false},
+    assignee: { 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    },
     status: {type: String, required: true},
     type: {type: String, required: true},
     title: { type: String, required: true},

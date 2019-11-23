@@ -1,10 +1,9 @@
 const Bug = require('../models/bug.model');
 
-
 exports.getAll = async (req, res) => {
     try {
-        const issues = await Bug.find();
-        console.log('Getting all the issues!')
+        const issues = await Bug.find().populate("assignee");
+        console.log('Getting all the issues!', issues)
         res.status(200).json({ issues, user: req.user })
 
     } catch (error) {
