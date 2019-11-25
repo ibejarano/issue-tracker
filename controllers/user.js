@@ -2,27 +2,28 @@ const User = require("../models/user.model");
 const Bug = require("../models/bug.model");
 
 exports.getAll = async (req, res) => {
-  console.log("Getting all users info!");
+  console.log("[Controller User]: Getting all users info!");
   try {
     const user = await User.find();
     res.status(200).json(user);
   } catch (error) {
-    console.log("Get All users Error:", error.toString());
+    console.log("[Controller User]: Get All users Error:", error.toString());
     res.status(400).json(error.toString());
   }
 };
 
 exports.getInfo = async (req, res) => {
+  console.log("[Controller User]: Getting user info!");
   const issues = await Bug.find({assignee: req.user._id});
   res.status(200).json({user:req.user , issues});
 };
 
 exports.register = async (req, res) => {
-  console.log('Registering new user')
+  console.log('[Controller User]: Registering new user')
   try {
     const { password, passwordConf } = req.body;
     if (password === passwordConf) {
-      console.log('Passwords match!')
+      console.log('[Controller User]: Passwords match')
       const newUser = new User(req.body);
       const savedUser = await newUser.save();
       if (savedUser && savedUser.isDev) {
@@ -33,43 +34,39 @@ exports.register = async (req, res) => {
         res.json("new User registered!");
       }
     } else {
-      console.log("Passwords dont match!");
+      console.log("[Controller User]: Passwords dont match!");
       res.json("pass dont match");
     }
   } catch (error) {
-    console.log('Error...:', error.toString())
-    res.status(400).json({
-      type: "error",
-      message: error.message
-    });
+    console.log('[Controller User]: Error:', error.toString())
+    res.status(400).json('Cannot register:' + error.toString());
   }
 };
 
 exports.login = async (req, res) =>{
   try {
       const { email , password} = req.body;
-      console.log('Logging user with email', email);
-      console.log('Logging user with pass', password);
+      console.log('[Controller User]: Logging user with email', email);
+      console.log('[Controller User]: Logging user with pass', password);
       const userAuth = await User.authenticate(email, password);
       const token = await userAuth.generateAuthToken();
       res.status(200).send({userAuth, token})
   } 
   catch(error){
-      res.status(401).json({
-          type: 'error',
-          message: error.message
-      })
+    console.log('[Controller User]: Error login:', error.toString())
+    res.status(400).json('Cannot login:' + error.toString());
   }
 }
 
 exports.logout = async (req, res) => {
   try {
-    console.log("INFO: Logging out User", req.user);
+    console.log("[Controller User]: Logging out User", req.user);
     req.user.token = req.body.token;
     await req.user.save();
+    console.log("[Controller User]: Logout succesful!");
     res.status(200).json("Logout succesful!");
   } catch (error) {
-    console.log(error.toString());
+    console.log('[Controller User]: error.toString()');
     res.status(500).json(error.toString());
   }
 };
@@ -77,10 +74,10 @@ exports.logout = async (req, res) => {
 exports.delete = async (req, res) => {
   try {
       const deleteResponse = await User.findByIdAndDelete(req.params.id);
-      console.log('User deleted!', deleteResponse);
+      console.log('[Controller User]: User deleted!', deleteResponse);
       res.status(200).json('User deleted!')
   } catch (error) {
-      console.log('Error deleting issue!')
-      res.status(500).json('Error deleting the issue!')
+      console.log('[Controller User]: Error deleting issue!'+error.toString())
+      res.status(400).json('Error deleting the issue!')
   }
 }
