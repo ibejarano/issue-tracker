@@ -4,11 +4,14 @@ const Bug = require("../models/bug.model");
 exports.getAll = async (req, res) => {
   console.log("[Controller User]: Getting all users info!");
   try {
+    if (!req.user.isAdmin){
+      throw new Error('You must have Admin privileges to view/edit this page')
+    }
     const user = await User.find();
     res.status(200).json(user);
   } catch (error) {
     console.log("[Controller User]: Get All users Error:", error.toString());
-    res.status(400).json(error.toString());
+    res.status(401).json(error.toString());
   }
 };
 
