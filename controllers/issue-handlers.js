@@ -34,7 +34,7 @@ exports.getById = async (req, res) => {
   }
 };
 
-exports.add = async (req, res) => {
+exports.add = async (req, res, next) => {
   try {
     console.log("[Controller Issues]: Registering new issue:");
     const priority = req.body.priority;
@@ -49,7 +49,8 @@ exports.add = async (req, res) => {
     });
     await newIssue.save();
     console.log("[Controller Issues]: New Issue Registered!");
-    res.status(200).json("New issues registered");
+    req.activityLogMsg = "New Issue added: "+ newIssue.title;
+    next();
   } catch (error) {
     console.log(
       "[Controller Issues]: Error during issue register",
