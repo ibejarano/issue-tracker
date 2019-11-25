@@ -49,7 +49,7 @@ exports.add = async (req, res, next) => {
     });
     await newIssue.save();
     console.log("[Controller Issues]: New Issue Registered!");
-    req.activityLogMsg = "New Issue added: "+ newIssue.title;
+    req.activityLogMsg = "New Issue added: " + newIssue.title;
     next();
   } catch (error) {
     console.log(
@@ -65,8 +65,16 @@ exports.update = async (req, res, next) => {
     console.log("[Controller Issues]: Updating issue #", req.params.id);
     const id = req.params.id;
     const issue = await Bug.findByIdAndUpdate(id, req.body);
+    issue.comments.push({
+      text: "Update Issue State",
+      author: req.user.username,
+      updateStatus: req.body
+    });
+    console.log(issue);
+    await issue.save();
     console.log("[Controller Issues]: Succesful issue update!");
-    res.status(200).json(issue);
+    req.activityLogMsg = "Update issue: " + issue.title;
+    next();
   } catch (error) {
     console.log(
       "[Controller Issues]: Error ocurred during issue editing!",
@@ -95,14 +103,13 @@ exports.addComment = async (req, res, next) => {
     const author = req.user.username;
     req.body.author = author;
     const issue = await Bug.findById(id);
-    issue.comments.push(req.body);
-    await issue.save();
     req.activityLogMsg = "New comment added in issue: " + issue.title;
     console.log(
       "[Controller Issues]: New comment added in issue: " + issue.title
     );
+    issue.comments.push(req.body);
+    await issue.save();
     next();
-    // res.status(200).json("Comment added succesully!");
   } catch (error) {
     console.log(
       "[Controller Issues]: Error ocurrend when adding a comment!",

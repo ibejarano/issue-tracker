@@ -20,7 +20,8 @@ const bugSchema = new Schema(
           priority: { type: String, required: false },
           assignee: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
+            ref: "User",
+            required: false
           },
           status: { type: String, required: false },
           type: { type: String, required: false },
