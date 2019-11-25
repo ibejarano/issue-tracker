@@ -37,7 +37,13 @@ const UserSchema = new Schema({
     issues: {
         type: Schema.Types.ObjectId,
         ref: "Bug"
-    }
+    },
+    activities: [
+        {
+            type: String,
+            required: false
+        }
+    ]
 });
 
 UserSchema.pre('save', async function(next){

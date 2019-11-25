@@ -14,23 +14,23 @@ exports.getAll = async (req, res) => {
 
 exports.getInfo = async (req, res) => {
   console.log("[Controller User]: Getting user info!");
-  const issues = await Bug.find({assignee: req.user._id});
-  res.status(200).json({user:req.user , issues});
+  const issues = await Bug.find({ assignee: req.user._id });
+  res.status(200).json({ user: req.user, issues });
 };
 
 exports.register = async (req, res) => {
-  console.log('[Controller User]: Registering new user')
+  console.log("[Controller User]: Registering new user");
   try {
     const { password, passwordConf } = req.body;
     if (password === passwordConf) {
-      console.log('[Controller User]: Passwords match')
+      console.log("[Controller User]: Passwords match");
       const newUser = new User(req.body);
       const savedUser = await newUser.save();
       if (savedUser && savedUser.isDev) {
-        console.log('New Dev registered!')
+        console.log("New Dev registered!");
         res.json("new Developer registered!");
       } else {
-        console.log('New user registered!')
+        console.log("New user registered!");
         res.json("new User registered!");
       }
     } else {
@@ -38,25 +38,24 @@ exports.register = async (req, res) => {
       res.json("pass dont match");
     }
   } catch (error) {
-    console.log('[Controller User]: Error:', error.toString())
-    res.status(400).json('Cannot register:' + error.toString());
+    console.log("[Controller User]: Error:", error.toString());
+    res.status(400).json("Cannot register:" + error.toString());
   }
 };
 
-exports.login = async (req, res) =>{
+exports.login = async (req, res) => {
   try {
-      const { email , password} = req.body;
-      console.log('[Controller User]: Logging user with email', email);
-      console.log('[Controller User]: Logging user with pass', password);
-      const userAuth = await User.authenticate(email, password);
-      const token = await userAuth.generateAuthToken();
-      res.status(200).send({userAuth, token})
-  } 
-  catch(error){
-    console.log('[Controller User]: Error login:', error.toString())
-    res.status(400).json('Cannot login:' + error.toString());
+    const { email, password } = req.body;
+    console.log("[Controller User]: Logging user with email", email);
+    console.log("[Controller User]: Logging user with pass", password);
+    const userAuth = await User.authenticate(email, password);
+    const token = await userAuth.generateAuthToken();
+    res.status(200).send({ userAuth, token });
+  } catch (error) {
+    console.log("[Controller User]: Error login:", error.toString());
+    res.status(400).json("Cannot login:" + error.toString());
   }
-}
+};
 
 exports.logout = async (req, res) => {
   try {
@@ -66,18 +65,36 @@ exports.logout = async (req, res) => {
     console.log("[Controller User]: Logout succesful!");
     res.status(200).json("Logout succesful!");
   } catch (error) {
-    console.log('[Controller User]: error.toString()');
+    console.log("[Controller User]: error.toString()");
     res.status(500).json(error.toString());
   }
 };
 
 exports.delete = async (req, res) => {
   try {
-      const deleteResponse = await User.findByIdAndDelete(req.params.id);
-      console.log('[Controller User]: User deleted!', deleteResponse);
-      res.status(200).json('User deleted!')
+    const deleteResponse = await User.findByIdAndDelete(req.params.id);
+    console.log("[Controller User]: User deleted!", deleteResponse);
+    res.status(200).json("User deleted!");
   } catch (error) {
-      console.log('[Controller User]: Error deleting issue!'+error.toString())
-      res.status(400).json('Error deleting the issue!')
+    console.log("[Controller User]: Error deleting issue!" + error.toString());
+    res.status(400).json("Error deleting the issue!");
   }
-}
+};
+
+exports.updateActivityLog = async (req, res) => {
+  try {
+    console.log(
+      "[Controller User]: Saving activity for... " + req.user.username
+    );
+    const activityMsg = req.activityLogMsg;
+    const user = req.user
+    user.activities.push(activityMsg);
+    await user.save();
+    console.log(
+      "[Controller User]: Update activity of user: " + req.user.username
+    );
+    res.status(200).json("Update activity of user: " + req.user.username);
+  } catch (error) {
+    res.status(200).json("[Controller User]: Fail to update user activity "+ error.toString());
+  }
+};

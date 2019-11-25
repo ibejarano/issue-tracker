@@ -59,7 +59,7 @@ exports.add = async (req, res) => {
   }
 };
 
-exports.update = async (req, res) => {
+exports.update = async (req, res, next) => {
   try {
     console.log("[Controller Issues]: Updating issue #", req.params.id);
     const id = req.params.id;
@@ -87,7 +87,7 @@ exports.delete = async (req, res) => {
   }
 };
 
-exports.addComment = async (req, res) => {
+exports.addComment = async (req, res, next) => {
   try {
     console.log("[Controller Issues]: Saving new comment");
     const id = req.params.id;
@@ -96,10 +96,17 @@ exports.addComment = async (req, res) => {
     const issue = await Bug.findById(id);
     issue.comments.push(req.body);
     await issue.save();
-    console.log("[Controller Issues]: New comment saved!");
-    res.status(200).json("Comment added succesully!");
+    req.activityLogMsg = "New comment added in issue: " + issue.title;
+    console.log(
+      "[Controller Issues]: New comment added in issue: " + issue.title
+    );
+    next();
+    // res.status(200).json("Comment added succesully!");
   } catch (error) {
-    console.log("[Controller Issues]: Error ocurrend when adding a comment!", error.ToString());
+    console.log(
+      "[Controller Issues]: Error ocurrend when adding a comment!",
+      error.toString()
+    );
     res.status(400).json(error);
   }
 };
