@@ -15,7 +15,7 @@ const userInfo = async (req, res, next) => {
     next();
   } catch (error) {
     console.log("MIDDLEWARE ERROR:", error.toString());
-    res.status(500).json("Unauthorized acces because: " + error.toString());
+    res.status(401).json("Unauthorized access");
   }
 };
 

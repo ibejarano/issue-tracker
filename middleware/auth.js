@@ -16,7 +16,7 @@ const auth = async(req,res,next) => {
             console.log('authentication succesful!')
             next();
     } catch(error){
-        next(error);
+        res.status(401).json('Error during Auth' + error.toString())
     }
 }
 
