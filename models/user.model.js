@@ -20,11 +20,6 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  isAdmin: {
-    type: Boolean,
-    required: false,
-    default: false
-  },
   role: {
     type: Number , 
     required: true,
