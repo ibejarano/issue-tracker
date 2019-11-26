@@ -1,5 +1,7 @@
 const User = require("../models/user.model");
 const Bug = require("../models/bug.model");
+const bcrypt = require("bcrypt");
+
 
 exports.getAll = async (req, res) => {
   console.log("[Controller User]: Getting all users info!");
@@ -108,9 +110,38 @@ exports.updateActivityLog = async (req, res) => {
 
 exports.update = async (req, res, next) => {
   try {
-    const updateResponse = await User.findByIdAndUpdate(req.params.id , req.body);
-    req.activityLogMsg = '[Admin Only] User Edit';
+    const updateResponse = await User.findByIdAndUpdate(
+      req.params.id,
+      req.body
+    );
+    req.activityLogMsg = "[Admin Only] User Edit";
     console.log("[Controller User]: User Edit", updateResponse);
+    next();
+  } catch (error) {
+    console.log("[Controller User]: Error deleting issue!" + error.toString());
+    res.status(400).json("Error deleting the issue!");
+  }
+};
+
+exports.changePassword = async (req, res, next) => {
+  try {
+    console.log("[Controller User]: Changing passwords");
+
+    const { password, passwordConf } = req.body;
+    if (password === passwordConf) {
+      console.log("[Controller User]: Passwords match");
+      const passwordCrypt = await bcrypt.hash(password, 10);
+      const params = {password: passwordCrypt}
+      console.log(params)
+      const savedUser = await User.findByIdAndUpdate(req.params.id, params);
+      console.log(
+        "[Controller User]: Changed password for: " + savedUser.username
+      );
+    } else {
+      console.log("[Controller User]: Passwords dont match!");
+      res.status(400).json("pass dont match");
+    }
+    req.activityLogMsg = "[Admin Only] User Edit";
     next();
   } catch (error) {
     console.log("[Controller User]: Error deleting issue!" + error.toString());

@@ -54,6 +54,16 @@ UserSchema.pre("save", async function(next) {
   next();
 });
 
+UserSchema.pre("findByIdAndUpdate", async function(next) {
+  let user = this;
+  console.log("[UserSchema MiddleWare] User this" , user)
+  if (user.isModified("password")) {
+    console.log("[UserSchema MiddleWare] Changing password")
+    user.password = await bcrypt.hash(user.password, 10);
+  }
+  next();
+});
+
 UserSchema.statics.authenticate = async (email, password) => {
   const user = await User.findOne({ email });
   if (!user) {

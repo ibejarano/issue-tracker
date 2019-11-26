@@ -12,5 +12,7 @@ router.route('/:id').delete( userHandler.delete );
 
 router.route('/:id').put( userHandler.update, userHandler.updateActivityLog );
 
+router.route('/change-password/:id').put( userHandler.changePassword , userHandler.updateActivityLog )
+
 
 module.exports = router;
