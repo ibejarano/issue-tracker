@@ -10,4 +10,7 @@ router.route('/logout').put( userHandler.logout );
 
 router.route('/:id').delete( userHandler.delete );
 
+router.route('/:id').put( userHandler.update, userHandler.updateActivityLog );
+
+
 module.exports = router;

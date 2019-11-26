@@ -4,8 +4,8 @@ const Bug = require("../models/bug.model");
 exports.getAll = async (req, res) => {
   console.log("[Controller User]: Getting all users info!");
   try {
-    if (!req.user.isAdmin){
-      throw new Error('You must have Admin privileges to view/edit this page')
+    if (!req.user.isAdmin) {
+      throw new Error("You must have Admin privileges to view/edit this page");
     }
     const user = await User.find();
     res.status(200).json(user);
@@ -90,7 +90,7 @@ exports.updateActivityLog = async (req, res) => {
       "[Controller User]: Saving activity for... " + req.user.username
     );
     const activityMsg = req.activityLogMsg;
-    const user = req.user
+    const user = req.user;
     user.activities.push(activityMsg);
     await user.save();
     console.log(
@@ -98,6 +98,22 @@ exports.updateActivityLog = async (req, res) => {
     );
     res.status(200).json("Update activity of user: " + req.user.username);
   } catch (error) {
-    res.status(200).json("[Controller User]: Fail to update user activity "+ error.toString());
+    res
+      .status(400)
+      .json(
+        "[Controller User]: Fail to update user activity " + error.toString()
+      );
+  }
+};
+
+exports.update = async (req, res, next) => {
+  try {
+    const updateResponse = await User.findByIdAndUpdate(req.params.id , req.body);
+    req.activityLogMsg = '[Admin Only] User Edit';
+    console.log("[Controller User]: User Edit", updateResponse);
+    next();
+  } catch (error) {
+    console.log("[Controller User]: Error deleting issue!" + error.toString());
+    res.status(400).json("Error deleting the issue!");
   }
 };
