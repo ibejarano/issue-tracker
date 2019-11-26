@@ -25,10 +25,10 @@ const UserSchema = new Schema({
     required: false,
     default: false
   },
-  isDev: {
-    type: Boolean,
-    required: false,
-    default: false
+  role: {
+    type: Number , 
+    required: true,
+    default: 1 // 0: Admin / 1: User / 2: Dev
   },
   token: {
     type: String,
