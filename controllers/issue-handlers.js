@@ -20,8 +20,12 @@ exports.getAll = async (req, res) => {
 exports.getById = async (req, res) => {
   try {
     console.log("[Controller Issues]: Issue request from db #", req.params.id);
-    const issue = await Bug.findById(req.params.id).populate('assignee')
-    console.log("[Controller Issues]: Succesful! retrieving" , issue);
+    const issue = await Bug.findById(req.params.id)
+      .populate("assignee")
+      .populate({
+        path: 'comments.updateStatus.assignee'
+      }).exec();
+    console.log("[Controller Issues]: Succesful! retrieving", issue.comments);
     res.status(200).json({ issue, user: req.user });
   } catch (error) {
     console.log(
