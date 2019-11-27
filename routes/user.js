@@ -4,6 +4,8 @@ const userHandler = require('../controllers/user');
 
 router.route('/').get( userHandler.getAll )
 
+router.route('/username/:id').get( userHandler.getUsernameById )
+
 router.route('/info').get( userHandler.getInfo )
 
 router.route('/logout').put( userHandler.logout );

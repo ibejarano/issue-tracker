@@ -23,6 +23,18 @@ exports.getInfo = async (req, res) => {
   res.status(200).json({ user: req.user, issues });
 };
 
+
+exports.getUsernameById = async (req, res) => {
+  try{
+    console.log("[Controller User]: Getting username for id!" , req.params.id);
+    const user = await User.findById(req.params.id);
+    res.status(200).json(user.username);
+  } catch(error){
+    console.log("[Controller User]: Cannot get user info:", error.toString());
+    res.status(400).json(error.toString());
+  }
+};
+
 exports.register = async (req, res) => {
   console.log("[Controller User]: Registering new user");
   try {
