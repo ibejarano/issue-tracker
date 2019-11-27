@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 exports.getAll = async (req, res) => {
   console.log("[Controller User]: Getting all users info!");
   try {
-    if (!req.user.isAdmin) {
+    if (req.user.role) {
       throw new Error("You must have Admin privileges to view/edit this page");
     }
     const user = await User.find();
