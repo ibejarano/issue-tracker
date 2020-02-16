@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const User = require('../models/user.model');
 const userHandler = require('../controllers/user');
 
 router.route('/').get( userHandler.getAll )
