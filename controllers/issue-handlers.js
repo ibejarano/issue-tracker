@@ -25,7 +25,8 @@ exports.getById = async (req, res) => {
       .populate({
         path: 'comments.updateStatus.assignee'
       }).exec();
-    console.log("[Controller Issues]: Succesful! retrieving", issue.comments);
+    console.log("[Controller Issues]: Succesful! retrieving");
+    console.log(req.user)
     res.status(200).json({ issue, user: req.user });
   } catch (error) {
     console.log(
