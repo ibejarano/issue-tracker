@@ -92,9 +92,8 @@ exports.update = async (req, res, next) => {
 exports.delete = async (req, res) => {
   try {
     console.log("[Controller Issues]: Deleting issue");
-    const deleteResponse = await Bug.findByIdAndDelete(req.params.id);
-    console.log("[Controller Issues]: Issue deleted!", deleteResponse);
-    res.status(200).json("Issue #" + req.params.id + " deleted!");
+    await Bug.findByIdAndDelete(req.params.id);
+    res.status(200).json("Deleted issue! Id: # " + req.params.id );
   } catch (error) {
     console.log("[Controller Issues]: ERROR deleting issue", error.toString());
     res.status(400).json("Error deleting the issue!");
