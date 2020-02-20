@@ -63,13 +63,10 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const {email, password} = req.body;
-    console.log('[Controller User]: Logging user with email', email);
-    console.log('[Controller User]: Logging user with pass', password);
     const userAuth = await User.authenticate(email, password);
     const token = await userAuth.generateAuthToken();
     authTokens[token] = userAuth;
-    res.cookie('Issue-tracker-cookie', token 
-    ).send('cookie set');
+    res.cookie('Issue-tracker-cookie', token).send('cookie set');
   } catch (error) {
     console.log('[Controller User]: Error login:', error.toString());
     res.status(400).json('Cannot login:' + error.toString());
@@ -168,7 +165,7 @@ exports.authUser = async (req, res, next) => {
     console.log('[AUTH COOKIES]');
     const cookieToken = req.cookies['Issue-tracker-cookie'];
     req.user = authTokens[cookieToken];
-    console.log('middleware',req.user)
+    console.log('middleware', req.user);
     next();
   } catch {
     console.log('UNREGISTERED USER OR MISSING COOKIE');
