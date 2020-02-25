@@ -66,7 +66,7 @@ exports.login = async (req, res) => {
     const userAuth = await User.authenticate(email, password);
     const token = await userAuth.generateAuthToken();
     authTokens[token] = userAuth;
-    res.cookie('Issue-tracker-cookie', token).send('cookie set');
+    res.cookie('Issue-tracker-cookie', token).send({userAuth});
   } catch (error) {
     console.log('[Controller User]: Error login:', error.toString());
     res.status(400).json('Cannot login:' + error.toString());
