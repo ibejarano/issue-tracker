@@ -26,7 +26,7 @@ exports.getById = async (req, res) => {
 
 exports.add = async (req, res, next) => {
   try {
-    const { priority, status, title, type } = req.body.priority;
+    const { priority, status, title, type } = req.body;
     const newIssue = new Bug({
       priority,
       status,
