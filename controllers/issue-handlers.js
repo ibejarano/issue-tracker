@@ -2,9 +2,10 @@ const Bug = require('../models/bug.model');
 
 exports.getAll = async (req, res) => {
   try {
-    const issues = await Bug.find().populate('assignee');
+    const issues = await Bug.find().sort({updatedAt: -1}).populate('assignee');
     res.status(200).json({issues, user: req.user});
   } catch (error) {
+    console.log(error)
     res.status(400).json(error);
   }
 };
