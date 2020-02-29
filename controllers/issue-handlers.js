@@ -2,10 +2,24 @@ const Bug = require('../models/bug.model');
 
 exports.getAll = async (req, res) => {
   try {
-    const issues = await Bug.find().sort({updatedAt: -1}).populate('assignee');
+    const issues = await Bug.find({status: {$ne: 'Cerrado'}})
+      .sort({updatedAt: -1})
+      .populate('assignee');
     res.status(200).json({issues, user: req.user});
   } catch (error) {
-    console.log(error)
+    console.log(error);
+    res.status(400).json(error);
+  }
+};
+
+exports.getArchived = async (req, res) => {
+  try {
+    const issues = await Bug.find({status: 'Cerrado'})
+      .sort({updatedAt: -1})
+      .populate('assignee');
+    res.status(200).json({issues, user: req.user});
+  } catch (error) {
+    console.log(error);
     res.status(400).json(error);
   }
 };
@@ -26,7 +40,7 @@ exports.getById = async (req, res) => {
 
 exports.add = async (req, res, next) => {
   try {
-    const { priority, status, title, type } = req.body;
+    const {priority, status, title, type} = req.body;
     const newIssue = new Bug({
       priority,
       status,

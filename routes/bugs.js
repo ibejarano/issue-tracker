@@ -4,6 +4,8 @@ const userHandler = require('../controllers/user');
 
 router.route('/').get(issueHandler.getAll)
 
+router.route('/archive').get(issueHandler.getArchived)
+
 router.route('/:id').get(issueHandler.getById)
 
 router.route('/').post(issueHandler.add,  userHandler.updateActivityLog);
