@@ -26,7 +26,7 @@ export default function Home(props) {
     <Switch>
       <Route exact path={`${match.path}`}>
         <RouteWrapper
-          section="Inicio"
+          section="Dashboard"
           open={open}
           handler={toggleOpen}
           isAdmin={isAdmin}
