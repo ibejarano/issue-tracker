@@ -3,23 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./server.js",
-    "dev": "nodemon ./server.js /src ",
-    "build": "react-scripts build",
+    "start": "react-scripts start",
+    "devServer": "env NODE_ENV=development nodemon --ignore './src' server.js ",
     "eject": "react-scripts eject"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ibejarano/issue-tracker.git"
   },
   "author": "Ignacio Bejarano",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ibejarano/issue-tracker/issues"
-  },
-  "homepage": "https://github.com/ibejarano/issue-tracker#readme",
   "dependencies": {
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
@@ -42,5 +33,23 @@
     "react-scripts": "^3.4.0",
     "rxjs": "^6.5.3",
     "typeface-roboto": "^0.0.75"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
