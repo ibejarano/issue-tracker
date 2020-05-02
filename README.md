@@ -11,7 +11,11 @@
 ---
 
 ## Features
-
+- Creacion de cuentas y Login
+- Tablas dinamicas
+- Roles de usuarios
+- Panel de control de administrador
+- Registro de actividades de cada usuario
 
 ---
 
@@ -24,7 +28,7 @@ Software necesario:
 
 ### Clonar
 
-- Clonar este repositorio `https://github.com/fvcproductions/SOMEREPO`
+- Clonar este repositorio `https://github.com/ibejarano/issue-tracker`
 
 ### Setup
 

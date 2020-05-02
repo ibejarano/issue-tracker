@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ibejarano/be-bug-track.git"
+    "url": "git+https://github.com/ibejarano/issue-tracker.git"
   },
   "author": "Ignacio Bejarano",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ibejarano/be-bug-track/issues"
+    "url": "https://github.com/ibejarano/issue-tracker/issues"
   },
-  "homepage": "https://github.com/ibejarano/be-bug-track#readme",
+  "homepage": "https://github.com/ibejarano/issue-tracker#readme",
   "dependencies": {
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
