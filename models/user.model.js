@@ -62,11 +62,11 @@ UserSchema.pre("findByIdAndUpdate", async function(next) {
 UserSchema.statics.authenticate = async (email, password) => {
   const user = await User.findOne({ email });
   if (!user) {
-    throw new Error("Invalid user");
+    throw new Error("Email inexistente");
   }
   const isPasswordMatch = await bcrypt.compare(password, user.password);
   if (!isPasswordMatch) {
-    throw new Error("Invalid login credentials");
+    throw new Error("Password incorrecta");
   }
   return user;
 };
