@@ -12,7 +12,7 @@ import Componentbar from "../components/componentbar";
 
 export default function Home(props) {
   const match = {
-    path: "/user",
+    path: "/",
   };
   const [open, setOpen] = React.useState(false);
 
@@ -20,18 +20,14 @@ export default function Home(props) {
     setOpen((prev) => !prev);
   };
 
-  const { isAdmin } = props.user;
+  const { user } = props;
+  const { isAdmin } = user;
 
   return (
     <Switch>
       <Route exact path={`${match.path}`}>
-        <RouteWrapper
-          section="Dashboard"
-          open={open}
-          handler={toggleOpen}
-          isAdmin={isAdmin}
-        >
-          <Dashboard />
+        <RouteWrapper section="Dashboard" open={open} handler={toggleOpen}>
+          <Dashboard user={user} />
         </RouteWrapper>
       </Route>
       <Route path={`${match.path}/issue`}>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import { history } from "./helpers/history";
-import { Router, Route, Switch, Redirect } from "react-router-dom";
+import { Router, Route, Switch } from "react-router-dom";
 
 import UserRegisterForm from "./views/register";
 import Login from "./views/login";
@@ -9,11 +9,14 @@ import HomePage from "./views/home";
 
 export default function App() {
   const storedUser = localStorage.getItem("issue-tracker-user");
-  if (!storedUser) {
-    history.push("/login");
-  }
+  const parsedUser = storedUser ? JSON.parse(storedUser) : null;
+  const [user, setUser] = useState(parsedUser);
 
-  const [user, setUser] = useState("");
+  if (!user) {
+    history.push("/login");
+  } else {
+    history.push("/");
+  }
 
   return (
     <Router history={history}>

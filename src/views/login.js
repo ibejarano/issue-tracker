@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function LoginPage(props) {
+export default function LoginPage({ setUser }) {
   const classes = useStyles();
   const [error, setError] = useState(null);
 
@@ -39,6 +39,7 @@ export default function LoginPage(props) {
       setError(error);
     } else {
       localStorage.setItem("issue-tracker-user", JSON.stringify(data));
+      setUser(data);
     }
   };
 
