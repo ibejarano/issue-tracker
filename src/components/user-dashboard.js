@@ -97,7 +97,7 @@ export default function UserHome({ user }) {
   const classes = useStyles();
   const [issues, setIssues] = useState([]);
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
-  console.log(user);
+  
   useEffect(() => {
     async function fetchData() {
       const res = await userHandler.getUserInfo();

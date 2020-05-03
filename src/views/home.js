@@ -9,8 +9,9 @@ import UserList from "../components/admin/user-list";
 import Dashboard from "../components/user-dashboard";
 import Sidebar from "../components/sidebar";
 import Componentbar from "../components/componentbar";
+import NewDashboard from "./dashboard";
 
-export default function Home(props) {
+export default function Home({ user }) {
   const match = {
     path: "/",
   };
@@ -20,14 +21,13 @@ export default function Home(props) {
     setOpen((prev) => !prev);
   };
 
-  const { user } = props;
   const { isAdmin } = user;
 
   return (
     <Switch>
       <Route exact path={`${match.path}`}>
         <RouteWrapper section="Dashboard" open={open} handler={toggleOpen}>
-          <Dashboard user={user} />
+          <NewDashboard user={user} />
         </RouteWrapper>
       </Route>
       <Route path={`${match.path}/issue`}>

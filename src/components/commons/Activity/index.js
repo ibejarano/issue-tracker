@@ -1,8 +1,10 @@
 import React from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
+import clsx from "clsx";
 
 import Paper from "@material-ui/core/Paper";
+import LoadingCicle from "../../loading";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
