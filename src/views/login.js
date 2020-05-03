@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 import { authenticationService } from "../handlers/authentication";
 
 // Material ui components

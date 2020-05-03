@@ -10,12 +10,14 @@ import IssueTable from "../components/commons/IssueTable";
 
 export default function Dashboard({ user }) {
   const [issues, setIssues] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
-      const res = await userHandler.getUserInfo();
-      const { issues } = res;
+      const data = await userHandler.getUserInfo();
+      const { issues } = data;
       setIssues(issues);
+      setLoading(false);
     }
     fetchData();
   }, []);
@@ -29,7 +31,7 @@ export default function Dashboard({ user }) {
         <Activity user={user} />
       </Grid>
       <Grid item xs={12}>
-        <IssueTable issues={issues} />
+        <IssueTable issues={issues} loading={loading} />
       </Grid>
     </Grid>
   );

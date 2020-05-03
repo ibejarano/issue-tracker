@@ -6,10 +6,9 @@ import IssueDetails from "../components/issue-details";
 import IssueArchive from "../components/issue-archive";
 import ReportIssue from "../components/issue-report";
 import UserList from "../components/admin/user-list";
-import Dashboard from "../components/user-dashboard";
 import Sidebar from "../components/sidebar";
 import Componentbar from "../components/componentbar";
-import NewDashboard from "./dashboard";
+import Dashboard from "./dashboard";
 
 export default function Home({ user }) {
   const match = {
@@ -27,7 +26,7 @@ export default function Home({ user }) {
     <Switch>
       <Route exact path={`${match.path}`}>
         <RouteWrapper section="Dashboard" open={open} handler={toggleOpen}>
-          <NewDashboard user={user} />
+          <Dashboard user={user} />
         </RouteWrapper>
       </Route>
       <Route path={`${match.path}/issue`}>
