@@ -18,7 +18,7 @@ export default function Home({ user }) {
   const { isAdmin } = user;
 
   return (
-    <Layout>
+    <Layout isAdmin={isAdmin}>
       <Switch>
         <Route exact path={`${match.path}`}>
           <Dashboard user={user} />

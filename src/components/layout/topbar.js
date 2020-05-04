@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { useLocation } from "react-router-dom";
 import clsx from "clsx";
 
 import AppBar from "@material-ui/core/AppBar";
@@ -51,9 +52,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Topbar({ open, handleDrawerOpen, section }) {
-  const classes = useStyles();
+const MAPSECTION = {
+  "/": "Dashboard",
+  "/issue-log": "Lista de issues",
+  "/issue-archive": "Issues archivados",
+  "report-issue": "Nuevo Issue",
+  "/list": "[ADMIN] Lista de usuarios",
+};
 
+export default function Topbar({ open, handleDrawerOpen }) {
+  const classes = useStyles();
+  const { pathname } = useLocation();
+  const section = MAPSECTION[pathname];
   return (
     <AppBar
       position="absolute"
