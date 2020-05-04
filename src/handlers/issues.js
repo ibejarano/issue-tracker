@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 export const issuesHandler = {
   getAll,
@@ -7,7 +7,7 @@ export const issuesHandler = {
   update,
   deleteById,
   addComment,
-  getArchived
+  getArchived,
 };
 
 const options = {
@@ -18,23 +18,19 @@ const serverUrl = process.env.REACT_APP_SERVER_URL;
 
 async function getAll() {
   try {
-    const res = await axios.get(serverUrl+'/bugs', options);
-    console.log('All the data is here:', res.data);
-    return res.data;
-  } catch (err) {
-    window.location = '/';
-    return err;
+    const { data } = await axios.get(serverUrl + "/bugs", options);
+    return { data };
+  } catch (error) {
+    return { error };
   }
 }
 
 async function getArchived() {
   try {
-    const res = await axios.get(serverUrl+'/bugs/archive', options);
-    console.log('archived', res.data)
-    return res.data;
-  } catch (err) {
-    window.location = '/';
-    return err;
+    const { data } = await axios.get(serverUrl + "/bugs/archive", options);
+    return { data };
+  } catch (error) {
+    return { error };
   }
 }
 
@@ -43,24 +39,24 @@ async function getById(id) {
     const res = await axios.get(`${serverUrl}/bugs/${id}`, options);
     return res.data;
   } catch (err) {
-    console.log('Issue id not found!', err);
+    console.log("Issue id not found!", err);
     return err;
   }
 }
 
 async function add(params) {
   try {
-    const res = await axios.post(serverUrl+'/bugs', params, options);
-    console.log('new Issue registered!');
+    const res = await axios.post(serverUrl + "/bugs", params, options);
+    console.log("new Issue registered!");
     return res;
   } catch (err) {
-    console.log('Error adding new issue', err);
+    console.log("Error adding new issue", err);
     return err;
   }
 }
 
 async function update(id, params) {
-  console.log('Updating bug #', id);
+  console.log("Updating bug #", id);
   const urlPost = `${serverUrl}/bugs/${id}`;
   try {
     const res = await axios.put(urlPost, params, options);
@@ -74,13 +70,10 @@ async function update(id, params) {
 
 async function deleteById(id) {
   try {
-    const {data} = await axios.delete(
-      `${serverUrl}/bugs/${id}`,
-      options,
-    );
+    const { data } = await axios.delete(`${serverUrl}/bugs/${id}`, options);
     return data;
   } catch (err) {
-    console.log('Bug id not found!', err);
+    console.log("Bug id not found!", err);
     return err;
   }
 }
