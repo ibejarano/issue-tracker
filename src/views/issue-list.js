@@ -53,7 +53,7 @@ export default function IssueList({ isAdmin }) {
       const { issues } = await issuesHandler.getAll();
       setIssues(issues);
     } catch (err) {
-      console.log(err);
+      alert.log(err.toString());
     }
   };
 
