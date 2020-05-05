@@ -49,7 +49,9 @@ export default function IssueList(props) {
           console.log(query);
           issuesHandler
             .getArchived()
-            .then(({ data }) => resolve({ data: data.issues }))
+            .then(({ data }) =>
+              resolve({ data: data.issues, page: 0, totalCount: 1 })
+            )
             .catch((err) => reject(err.toString()));
         })
       }

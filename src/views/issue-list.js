@@ -75,9 +75,7 @@ export default function IssueList({ isAdmin }) {
           console.log(query);
           issuesHandler
             .getAll()
-            .then(({ data }) =>
-              resolve({ data: data.issues })
-            )
+            .then(({ data }) => resolve({ data: data.issues, page: 0, totalCount: 1}))
             .catch((err) => reject(err.toString()));
         })
       }
