@@ -164,10 +164,14 @@ exports.authUser = async (req, res, next) => {
   try {
     console.log("[AUTH COOKIES]");
     const cookieToken = req.cookies["Issue-tracker-cookie"];
+    if (!cookieToken) {
+      throw new Error("No token set");
+    }
     req.user = authTokens[cookieToken];
-    console.log("middleware", req.user);
+    console.log("middleware", req.user.username);
     next();
-  } catch {
-    console.log("UNREGISTERED USER OR MISSING COOKIE");
+  } catch (err) {
+    console.log(err.toString());
+    res.status(401).send("No cookie");
   }
 };
