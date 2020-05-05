@@ -66,23 +66,21 @@ export default function IssueList({ isAdmin }) {
     }
   };
 
-  useEffect(() => {
-    async function fetchData() {
-      const { data, error } = await issuesHandler.getAll();
-      if (error) {
-        alert(error.toString());
-      } else {
-        setIssues(data.issues);
-      }
-    }
-    fetchData();
-  }, []);
-
   return (
     <MaterialTable
       title=""
       columns={issueCols}
-      data={issues}
+      data={(query) =>
+        new Promise((resolve, reject) => {
+          console.log(query);
+          issuesHandler
+            .getAll()
+            .then(({ data }) =>
+              resolve({ data: data.issues })
+            )
+            .catch((err) => reject(err.toString()));
+        })
+      }
       editable={
         isAdmin
           ? {
