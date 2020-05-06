@@ -1,6 +1,5 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { useLocation } from "react-router-dom";
 import clsx from "clsx";
 
 import AppBar from "@material-ui/core/AppBar";
@@ -52,18 +51,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MAPSECTION = {
-  "/": "Dashboard",
-  "/issue-log": "Lista de issues",
-  "/issue-archive": "Issues archivados",
-  "report-issue": "Nuevo Issue",
-  "/list": "[ADMIN] Lista de usuarios",
-};
-
-export default function Topbar({ open, handleDrawerOpen }) {
+export default function Topbar({ open, handleDrawerOpen, title }) {
   const classes = useStyles();
-  const { pathname } = useLocation();
-  const section = MAPSECTION[pathname];
   return (
     <AppBar
       position="absolute"
@@ -86,7 +75,7 @@ export default function Topbar({ open, handleDrawerOpen }) {
           noWrap
           className={classes.title}
         >
-          {section || "Seccion desconocida"}
+          {title || "Seccion desconocida"}
         </Typography>
         <IconButton
           color="inherit"

@@ -8,10 +8,10 @@ import UserInfoCard from "../components/commons/UserInfoCard";
 import Activity from "../components/commons/Activity";
 import IssueTable from "../components/commons/IssueTable";
 
-export default function Dashboard({ user }) {
+export default function Dashboard({ user, setTitle }) {
   const [issues, setIssues] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  setTitle("Dashboard");
   useEffect(() => {
     async function fetchData() {
       const data = await userHandler.getUserInfo();

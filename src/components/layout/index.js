@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Layout({ children, isAdmin }) {
+export default function Layout({ children, isAdmin, title }) {
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(false);
@@ -53,7 +53,7 @@ export default function Layout({ children, isAdmin }) {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <Topbar open={open} handleDrawerOpen={handleDrawerOpen} />
+      <Topbar open={open} handleDrawerOpen={handleDrawerOpen} title={title} />
       <Sidebar
         open={open}
         handleDrawerClose={handleDrawerClose}
