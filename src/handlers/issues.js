@@ -25,9 +25,12 @@ async function getAll() {
   }
 }
 
-async function getArchived() {
+async function getArchived(pageSize, page) {
   try {
-    const { data } = await axios.get(serverUrl + "/bugs/archive", options);
+    const { data } = await axios.get(
+      `${serverUrl}/bugs/archive?rows=${pageSize}&page=${page}`,
+      options
+    );
     return { data };
   } catch (error) {
     return { error };

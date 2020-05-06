@@ -1,5 +1,5 @@
-import axios from 'axios';
-import {authenticationService} from './authentication';
+import axios from "axios";
+import { authenticationService } from "./authentication";
 
 const options = {
   withCredentials: true,
@@ -19,22 +19,23 @@ export const userHandler = {
 
 async function getUserInfo() {
   try {
-    console.log('getting all the info!');
-    let {data} = await axios.get(serverUrl + '/user/info', options);
+    console.log("getting all the info!");
+    let { data } = await axios.get(serverUrl + "/user/info", options);
     return data;
   } catch (error) {
-    console.log('Error ocurred get user info.', error.toString());
-    window.location = '/';
+    console.log("Error ocurred get user info.", error.toString());
+    await logout();
+    window.location = "/login";
     return error;
   }
 }
 
 async function getAllUsers() {
   try {
-    const res = await axios.get(serverUrl + '/user/', options);
+    const res = await axios.get(serverUrl + "/user/", options);
     return res.data;
   } catch (err) {
-    console.log('Users not found!', err);
+    console.log("Users not found!", err);
     return err;
   }
 }
@@ -44,22 +45,22 @@ async function deleteById(id) {
     const res = await axios.delete(`${serverUrl}/user/${id}`, options);
     return res;
   } catch (err) {
-    console.log('User not found!', err);
+    console.log("User not found!", err);
     return err;
   }
 }
 
 async function logout() {
   try {
-    const params = {token: ''};
-    const res = await axios.put(serverUrl + '/user/logout/', params, options);
+    const params = { token: "" };
+    const res = await axios.put(serverUrl + "/user/logout/", params, options);
     if (res.status === 200) {
       authenticationService.removeSession();
     } else {
-      throw new Error('Error during logout!');
+      throw new Error("Error during logout!");
     }
   } catch (error) {
-    console.log('User not found!', error);
+    console.log("User not found!", error);
     return error;
   }
 }
@@ -80,7 +81,7 @@ async function changePassword(params) {
     const res = await axios.put(
       `${serverUrl}/user/change-password`,
       params,
-      options,
+      options
     );
     return res;
   } catch (error) {
@@ -94,7 +95,7 @@ async function getUsernameById(id) {
     const res = await axios.get(`${serverUrl}/user/username/${id}`, options);
     return res;
   } catch (err) {
-    console.log('User not found!', err);
+    console.log("User not found!", err);
     return err;
   }
 }
