@@ -2,38 +2,32 @@ const Bug = require("../models/bug.model");
 
 exports.getAll = async (req, res) => {
   try {
-    const options = {
-      skip: 0,
-    };
-    const issues = await Bug.find({ status: { $ne: "Cerrado" } }, options)
-      .sort({ updatedAt: -1 })
-      .populate("assignee");
-    res.status(200).json({ issues });
-  } catch (error) {
-    console.log(error);
-    res.status(400).json(error);
-  }
-};
-
-exports.getArchived = async (req, res) => {
-  try {
+    let queryOpt;
     const { query } = req;
-    const { rows, page } = query;
+    const { rows, page, status } = query;
+
     if (!rows || !page) {
       throw new Error("No se especifico parametros del query");
     }
-    const totalCount = await Bug.countDocuments({ status: "Cerrado" });
+
+    if (status != "Cerrado") {
+      queryOpt = { status: { $ne: "Cerrado" } };
+    } else {
+      queryOpt = { status: "Cerrado" };
+    }
+
+    const totalCount = await Bug.countDocuments(queryOpt);
     const N = rows >= totalCount ? 1 : Math.floor(totalCount / rows) + 1;
 
-    const issues = await Bug.find({ status: "Cerrado" })
+    const issues = await Bug.find(queryOpt)
       .skip(parseInt(page * rows))
       .limit(parseInt(rows))
       .sort({ updatedAt: -1 })
       .populate("assignee");
     res.status(200).json({ issues, totalCount: N, page: parseInt(page) });
   } catch (error) {
-    console.log(error);
-    res.status(400).json(error);
+    console.log(error.toString());
+    res.status(500).json(error.toString());
   }
 };
 
