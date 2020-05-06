@@ -1,47 +1,41 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { issuesHandler } from "../../../handlers/issues";
 import MaterialTable from "material-table";
-import { getIsoDate } from "../../../helpers/formatDate";
-
-const issueCols = [
-  {
-    title: "Titulo",
-    field: "title",
-    render: (rowData) => (
-      <Link to={`/user/issue?q=${rowData._id}`}>{rowData.title}</Link>
-    ),
-  },
-  { title: "Estado", field: "status" },
-  { title: "Tipo", field: "type" },
-  { title: "Responsable", field: "assignee.username" },
-  { title: "Prioridad", field: "priority" },
-  {
-    title: "Creado",
-    field: "createdAt",
-    render: (rowData) => getIsoDate(rowData.createdAt),
-  },
-  {
-    title: "Actualizado",
-    field: "updatedAt",
-    render: (rowData) => getIsoDate(rowData.updatedAt),
-  },
-];
+import issueData from './issues-options'
 
 export default function CustomMaterialTable({ status, isAdmin }) {
   const handleDelete = async (issueRow) => {
     try {
       await issuesHandler.deleteById(issueRow._id);
-      const data = await issuesHandler.getArchived();
+      await issuesHandler.getArchived();
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  const handleUpdate = async (newData, oldData) => {
+    try {
+      const id = oldData._id;
+      await issuesHandler.update(id, newData);
+    } catch (err) {
+      alert(err.toString());
+    }
+  };
+
+  const handleArchive = async (e, issueRow) => {
+    try {
+      const newData = { ...issueRow, status: "Cerrado" };
+      console.log("data de handlearchive", newData);
+      await issuesHandler.update(issueRow._id, newData);
+    } catch (err) {
+      alert.log(err.toString());
     }
   };
 
   return (
     <MaterialTable
       title=""
-      columns={issueCols}
+      columns={issueData}
       data={(query) =>
         new Promise((resolve, reject) => {
           const { pageSize, page } = query;
@@ -61,9 +55,17 @@ export default function CustomMaterialTable({ status, isAdmin }) {
         isAdmin
           ? {
               onRowDelete: handleDelete,
+              onRowUpdate: handleUpdate,
             }
           : {}
       }
+      actions={[
+        {
+          icon: "archive",
+          tooltip: "Archivar Issue",
+          onClick: handleArchive,
+        },
+      ]}
       localization={{
         header: {
           actions: "Acciones",
