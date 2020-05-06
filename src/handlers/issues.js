@@ -7,7 +7,6 @@ export const issuesHandler = {
   update,
   deleteById,
   addComment,
-  getArchived,
 };
 
 const options = {
@@ -16,21 +15,15 @@ const options = {
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
-async function getAll() {
+async function getAll(pageSize, page, status) {
   try {
-    const { data } = await axios.get(serverUrl + "/bugs", options);
-    return { data };
-  } catch (error) {
-    return { error };
-  }
-}
-
-async function getArchived(pageSize, page) {
-  try {
-    const { data } = await axios.get(
-      `${serverUrl}/bugs/archive?rows=${pageSize}&page=${page}`,
-      options
-    );
+    let fetchUrl;
+    if (status) {
+      fetchUrl = `${serverUrl}/bugs?rows=${pageSize}&page=${page}&status=${status}`;
+    } else {
+      fetchUrl = `${serverUrl}/bugs?rows=${pageSize}&page=${page}`;
+    }
+    const { data } = await axios(fetchUrl, options);
     return { data };
   } catch (error) {
     return { error };

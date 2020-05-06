@@ -28,9 +28,7 @@ const issueCols = [
   },
 ];
 
-export default function CustomMaterialTable(props) {
-  const { isAdmin } = props;
-
+export default function CustomMaterialTable({ status, isAdmin }) {
   const handleDelete = async (issueRow) => {
     try {
       await issuesHandler.deleteById(issueRow._id);
@@ -48,7 +46,7 @@ export default function CustomMaterialTable(props) {
         new Promise((resolve, reject) => {
           const { pageSize, page } = query;
           issuesHandler
-            .getArchived(pageSize, page)
+            .getAll(pageSize, page, status)
             .then(({ data }) =>
               resolve({
                 data: data.issues,
