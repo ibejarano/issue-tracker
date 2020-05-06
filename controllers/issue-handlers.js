@@ -17,14 +17,13 @@ exports.getAll = async (req, res) => {
     }
 
     const totalCount = await Bug.countDocuments(queryOpt);
-    const N = rows >= totalCount ? 1 : Math.floor(totalCount / rows) + 1;
 
     const issues = await Bug.find(queryOpt)
       .skip(parseInt(page * rows))
       .limit(parseInt(rows))
       .sort({ updatedAt: -1 })
       .populate("assignee");
-    res.status(200).json({ issues, totalCount: N, page: parseInt(page) });
+    res.status(200).json({ issues, totalCount, page: parseInt(page) });
   } catch (error) {
     console.log(error.toString());
     res.status(500).json(error.toString());
