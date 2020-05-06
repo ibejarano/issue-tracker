@@ -172,6 +172,6 @@ exports.authUser = async (req, res, next) => {
     next();
   } catch (err) {
     console.log(err.toString());
-    res.status(401).send("No cookie");
+    res.status(401).send("Acceso no autorizado");
   }
 };
