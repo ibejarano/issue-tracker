@@ -13,7 +13,7 @@ const issueData = [
     title: "Titulo",
     field: "title",
     render: (rowData) => (
-      <Link to={`/user/issue?q=${rowData._id}`}>{rowData.title}</Link>
+      <Link to={`/issue?q=${rowData._id}`}>{rowData.title}</Link>
     ),
   },
   { title: "Estado", field: "status", lookup: statusTypesMap },

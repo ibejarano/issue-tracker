@@ -37,7 +37,7 @@ function TableWithIssues({ issues }) {
       {issues.map((issue) => (
         <TableRow key={issue.title} hover>
           <TableCell component="th" scope="row">
-            <Link to={`/user/issue?q=${issue._id}`}>{issue.title}</Link>
+            <Link to={`/issue?q=${issue._id}`}>{issue.title}</Link>
           </TableCell>
           <TableCell align="right">{issue.type}</TableCell>
           <TableCell align="right">{issue.status}</TableCell>

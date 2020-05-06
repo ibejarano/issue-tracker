@@ -14,8 +14,6 @@ export default function App() {
 
   if (!user) {
     history.push("/login");
-  } else {
-    history.push("/");
   }
 
   return (

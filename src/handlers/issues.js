@@ -26,24 +26,27 @@ async function getAll(pageSize, page, status) {
     const { data } = await axios(fetchUrl, options);
     return { data };
   } catch (error) {
+    if (error.response.status === 401) {
+      removeSession();
+    }
     return { error };
   }
 }
 
 async function getById(id) {
   try {
-    const res = await axios.get(`${serverUrl}/bugs/${id}`, options);
-    return res.data;
+    console.log("getting issue", id);
+    const { data } = await axios.get(`${serverUrl}/bugs/${id}`, options);
+    console.log(data);
+    return data;
   } catch (err) {
-    console.log("Issue id not found!", err);
-    return err;
+    return { err: err.response };
   }
 }
 
 async function add(params) {
   try {
     const res = await axios.post(serverUrl + "/bugs", params, options);
-    console.log("new Issue registered!");
     return res;
   } catch (err) {
     console.log("Error adding new issue", err);
@@ -78,4 +81,9 @@ async function addComment(id, params) {
   const urlComments = `${serverUrl}/bugs/add-comment/${id}`;
   const res = await axios.put(urlComments, params, options);
   return res;
+}
+
+function removeSession() {
+  localStorage.clear();
+  window.location = "/login";
 }

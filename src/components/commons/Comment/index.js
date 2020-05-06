@@ -42,10 +42,14 @@ export default function CommentsCard({ comments, assignee }) {
           {isCommentAuthorAssignee(comment, assignee) && (
             <Chip color="primary" label="Asignee" />
           )}
-          <Typography color="textPrimary">
+          <Typography component="subtitle1" color="textPrimary">
             {comment.author} - <span />
           </Typography>
-          <Typography className={classes.pos} color="textSecondary">
+          <Typography
+            className={classes.pos}
+            color="textSecondary"
+            component="body1"
+          >
             {getIsoDate(comment.date)}
           </Typography>
           <Typography component="p">{comment.text}</Typography>
@@ -55,5 +59,5 @@ export default function CommentsCard({ comments, assignee }) {
     );
   });
 
-  return <React.Fragment>{ListOfCommentCards}</React.Fragment>;
+  return <div>{ListOfCommentCards}</div>;
 }

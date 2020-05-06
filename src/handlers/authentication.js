@@ -1,5 +1,3 @@
-import { BehaviorSubject } from "rxjs";
-
 import axios from "axios";
 
 const config = {
@@ -10,23 +8,9 @@ const config = {
 };
 const transport = axios.create(config);
 
-const currentUserSubject = new BehaviorSubject(
-  JSON.parse(localStorage.getItem("currentUser"))
-);
-const currentUserIsAdmin = new BehaviorSubject(
-  JSON.parse(localStorage.getItem("isAdmin"))
-);
-
 export const authenticationService = {
   login,
-  currentUser: currentUserSubject.asObservable(),
   removeSession,
-  get currentUserValue() {
-    return currentUserSubject.value;
-  },
-  get isAdmin() {
-    return currentUserIsAdmin.value;
-  },
 };
 
 async function login(params) {
@@ -43,5 +27,4 @@ async function login(params) {
 
 function removeSession() {
   localStorage.clear();
-  currentUserSubject.next(null);
 }

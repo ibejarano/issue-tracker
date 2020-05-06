@@ -39,6 +39,7 @@ export default function LoginPage({ setUser }) {
     } else {
       localStorage.setItem("issue-tracker-user", JSON.stringify(data));
       setUser(data);
+      window.location = "/";
     }
   };
 
