@@ -32,7 +32,7 @@ export default function IssueDetails({ isAdmin }) {
           comments={issue.comments}
           assignee={issue.assignee ? issue.assignee.username : null}
         />
-        <AddComment issueId={issue._id} />
+        <AddComment issueId={issue._id} setIssue={setIssue} />
       </React.Fragment>
     )
   );

@@ -15,15 +15,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function AddComment({ issueId }) {
+export default function AddComment({ issueId, setIssue }) {
   const classes = useStyles();
   const [text, setText] = useState("");
 
   const changeTextHandler = (e) => setText(e.target.value);
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    issuesHandler.addComment(text, issueId);
-    setText("");
+    const { data, error } = await issuesHandler.addComment(text, issueId);
+    if (error) {
+      console.log("Error agregando comentario", error);
+    } else {
+      setIssue(data.issues);
+      setText("");
+    }
   };
 
   return (

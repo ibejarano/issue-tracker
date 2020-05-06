@@ -78,9 +78,13 @@ async function deleteById(id) {
 }
 
 async function addComment(text, issueId) {
-  const urlComments = `${serverUrl}/bugs/add-comment/${issueId}`;
-  const res = await axios.put(urlComments, { text }, options);
-  return res;
+  try {
+    const urlComments = `${serverUrl}/bugs/add-comment/${issueId}`;
+    const { data } = await axios.put(urlComments, { text }, options);
+    return { data };
+  } catch (error) {
+    return { error: error.toString() };
+  }
 }
 
 function removeSession() {
