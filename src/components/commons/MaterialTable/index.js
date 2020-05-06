@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useRef } from "react";
 import { issuesHandler } from "../../../handlers/issues";
 import MaterialTable from "material-table";
-import issueData from './issues-options'
+import issueData from "./issues-options";
 
 export default function CustomMaterialTable({ status, isAdmin }) {
+  const tableRef = useRef();
   const handleDelete = async (issueRow) => {
     try {
       await issuesHandler.deleteById(issueRow._id);
@@ -22,10 +23,9 @@ export default function CustomMaterialTable({ status, isAdmin }) {
     }
   };
 
-  const handleArchive = async (e, issueRow) => {
+  const handleArchive = async (issueRow) => {
     try {
       const newData = { ...issueRow, status: "Cerrado" };
-      console.log("data de handlearchive", newData);
       await issuesHandler.update(issueRow._id, newData);
     } catch (err) {
       alert.log(err.toString());
@@ -35,19 +35,21 @@ export default function CustomMaterialTable({ status, isAdmin }) {
   return (
     <MaterialTable
       title=""
+      tableRef={tableRef}
       columns={issueData}
       data={(query) =>
         new Promise((resolve, reject) => {
           const { pageSize, page } = query;
           issuesHandler
             .getAll(pageSize, page, status)
-            .then(({ data }) =>
+            .then(({ data }) => {
+              console.log("Refreshing...", data);
               resolve({
                 data: data.issues,
                 page: data.page,
                 totalCount: data.totalCount,
-              })
-            )
+              });
+            })
             .catch((err) => reject(err.toString()));
         })
       }
@@ -63,7 +65,16 @@ export default function CustomMaterialTable({ status, isAdmin }) {
         {
           icon: "archive",
           tooltip: "Archivar Issue",
-          onClick: handleArchive,
+          onClick: (_, issueRow) =>
+            handleArchive(issueRow) &&
+            tableRef.current &&
+            tableRef.current.onQueryChange(),
+        },
+        {
+          icon: "refresh",
+          tooltip: "Actualizar",
+          isFreeAction: true,
+          onClick: () => tableRef.current && tableRef.current.onQueryChange(),
         },
       ]}
       localization={{
