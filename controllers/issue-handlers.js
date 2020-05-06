@@ -95,7 +95,8 @@ exports.addComment = async (req, res, next) => {
     const issue = await Bug.findById(id);
     req.activityLogMsg = `Nuevo comentario en: ${issue.title}`;
     issue.comments.push(req.body);
-    await issue.save();
+    const savedIssue = await issue.save();
+    req.issues = savedIssue
     next();
   } catch (error) {
     res.status(400).json(error);

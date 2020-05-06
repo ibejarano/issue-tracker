@@ -106,15 +106,15 @@ exports.updateActivityLog = async (req, res) => {
     const user = req.user;
     user.activities.push(activityMsg);
     await user.save();
-    console.log(
-      "[Controller User]: Update activity of user: " + req.user.username
-    );
-    res.status(200).json("Update activity of user: " + req.user.username);
+    res
+      .status(200)
+      .json({ message: "Actividad actualizada", issues: req.issues });
   } catch (error) {
     res
       .status(400)
       .json(
-        "[Controller User]: Fail to update user activity " + error.toString()
+        "[Controller User]: Error actualizando la actividad de usuario" +
+          error.toString()
       );
   }
 };
