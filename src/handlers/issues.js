@@ -77,9 +77,9 @@ async function deleteById(id) {
   }
 }
 
-async function addComment(id, params) {
-  const urlComments = `${serverUrl}/bugs/add-comment/${id}`;
-  const res = await axios.put(urlComments, params, options);
+async function addComment(text, issueId) {
+  const urlComments = `${serverUrl}/bugs/add-comment/${issueId}`;
+  const res = await axios.put(urlComments, { text }, options);
   return res;
 }
 

@@ -22,7 +22,7 @@ export default function AddComment({ issueId }) {
   const changeTextHandler = (e) => setText(e.target.value);
   const submitHandler = (e) => {
     e.preventDefault();
-    issuesHandler.addNewComment(text, issueId);
+    issuesHandler.addComment(text, issueId);
     setText("");
   };
 
