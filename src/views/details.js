@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 
 import { issuesHandler } from "../handlers/issues";
 import IssueInfoCard from "../components/issue/cards/bug-info-card";
-import IssueCommentCard from "../components/issue/cards/bug-comment-card";
+import Comments from "../components/commons/Comments";
 import AddComment from "../components/commons/AddComment";
 
 export default function IssueDetails({ isAdmin }) {
@@ -28,7 +28,7 @@ export default function IssueDetails({ isAdmin }) {
           info={issue}
           editIssueUrl={isAdmin ? `/user/issue-edit?id=${id}` : null}
         />
-        <IssueCommentCard
+        <Comments
           comments={issue.comments}
           assignee={issue.assignee ? issue.assignee.username : null}
         />

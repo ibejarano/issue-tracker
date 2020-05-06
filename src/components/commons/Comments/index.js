@@ -8,7 +8,7 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Chip from "@material-ui/core/Chip";
-import ChipsArray from "./bug-info-card";
+import IssueInfoCard from "../IssueInfoCard";
 
 const useStyles = makeStyles({
   card: {
@@ -33,7 +33,7 @@ function isCommentAuthorAssignee(comment, assignee) {
   }
 }
 
-export default function CommentsCard({ comments, assignee }) {
+export default function CommentssCard({ comments, assignee }) {
   const classes = useStyles();
   const ListOfCommentCards = comments.map((comment) => {
     return (
@@ -49,7 +49,9 @@ export default function CommentsCard({ comments, assignee }) {
             {getIsoDate(comment.date)}
           </Typography>
           <Typography component="p">{comment.text}</Typography>
-          {comment.updateStatus && <ChipsArray info={comment.updateStatus} />}
+          {comment.updateStatus && (
+            <IssueInfoCard info={comment.updateStatus} />
+          )}
         </CardContent>
       </Card>
     );
