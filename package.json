@@ -5,7 +5,9 @@
   "main": "server.js",
   "private": true,
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts build",
+    "poststart": "env NODE_ENV=production node server.js",
+    "devClient": "react-scripts start",
     "devServer": "env NODE_ENV=development nodemon --ignore './src' server.js ",
     "eject": "react-scripts eject"
   },
