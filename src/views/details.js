@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 import { issuesHandler } from "../handlers/issues";
-import IssueInfoCard from "../components/issue/cards/bug-info-card";
+import IssueInfoCard from "../components/commons/IssueInfoCard";
 import Comments from "../components/commons/Comments";
 import AddComment from "../components/commons/AddComment";
 
@@ -15,7 +15,7 @@ export default function IssueDetails({ isAdmin, setTitle }) {
     async function getIssueDetails() {
       const res = await issuesHandler.getById(id);
       setIssue(res.issue);
-      setTitle(res.issue.title)
+      setTitle(res.issue.title);
     }
     if (!issue) {
       getIssueDetails();
