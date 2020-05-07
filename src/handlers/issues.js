@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 export const issuesHandler = {
   getAll,
@@ -7,7 +7,6 @@ export const issuesHandler = {
   update,
   deleteById,
   addComment,
-  getArchived
 };
 
 const options = {
@@ -16,51 +15,47 @@ const options = {
 
 const serverUrl = process.env.REACT_APP_SERVER_URL;
 
-async function getAll() {
+async function getAll(pageSize, page, status) {
   try {
-    const res = await axios.get(serverUrl+'/bugs', options);
-    console.log('All the data is here:', res.data);
-    return res.data;
-  } catch (err) {
-    window.location = '/';
-    return err;
-  }
-}
-
-async function getArchived() {
-  try {
-    const res = await axios.get(serverUrl+'/bugs/archive', options);
-    console.log('archived', res.data)
-    return res.data;
-  } catch (err) {
-    window.location = '/';
-    return err;
+    let fetchUrl;
+    if (status) {
+      fetchUrl = `${serverUrl}/bugs?rows=${pageSize}&page=${page}&status=${status}`;
+    } else {
+      fetchUrl = `${serverUrl}/bugs?rows=${pageSize}&page=${page}`;
+    }
+    const { data } = await axios(fetchUrl, options);
+    return { data };
+  } catch (error) {
+    if (error.response.status === 401) {
+      removeSession();
+    }
+    return { error };
   }
 }
 
 async function getById(id) {
   try {
-    const res = await axios.get(`${serverUrl}/bugs/${id}`, options);
-    return res.data;
+    console.log("getting issue", id);
+    const { data } = await axios.get(`${serverUrl}/bugs/${id}`, options);
+    console.log(data);
+    return data;
   } catch (err) {
-    console.log('Issue id not found!', err);
-    return err;
+    return { err: err.response };
   }
 }
 
 async function add(params) {
   try {
-    const res = await axios.post(serverUrl+'/bugs', params, options);
-    console.log('new Issue registered!');
+    const res = await axios.post(serverUrl + "/bugs", params, options);
     return res;
   } catch (err) {
-    console.log('Error adding new issue', err);
+    console.log("Error adding new issue", err);
     return err;
   }
 }
 
 async function update(id, params) {
-  console.log('Updating bug #', id);
+  console.log("Updating bug #", id);
   const urlPost = `${serverUrl}/bugs/${id}`;
   try {
     const res = await axios.put(urlPost, params, options);
@@ -74,19 +69,25 @@ async function update(id, params) {
 
 async function deleteById(id) {
   try {
-    const {data} = await axios.delete(
-      `${serverUrl}/bugs/${id}`,
-      options,
-    );
+    const { data } = await axios.delete(`${serverUrl}/bugs/${id}`, options);
     return data;
   } catch (err) {
-    console.log('Bug id not found!', err);
+    console.log("Bug id not found!", err);
     return err;
   }
 }
 
-async function addComment(id, params) {
-  const urlComments = `${serverUrl}/bugs/add-comment/${id}`;
-  const res = await axios.put(urlComments, params, options);
-  return res;
+async function addComment(text, issueId) {
+  try {
+    const urlComments = `${serverUrl}/bugs/add-comment/${issueId}`;
+    const { data } = await axios.put(urlComments, { text }, options);
+    return { data };
+  } catch (error) {
+    return { error: error.toString() };
+  }
+}
+
+function removeSession() {
+  localStorage.clear();
+  window.location = "/login";
 }

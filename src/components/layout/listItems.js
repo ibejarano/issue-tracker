@@ -17,36 +17,37 @@ const mainList = [
   {
     name: "Dashboard",
     path: "",
-    icon: <DashboardIcon />
+    icon: <DashboardIcon />,
   },
   {
     name: "Lista de Issues",
     path: "issue-log",
-    icon: <ListAltIcon />
+    icon: <ListAltIcon />,
   },
   {
     name: "Issues Archivados",
     path: "issue-archive",
-    icon: <ArchiveIcon />
+    icon: <ArchiveIcon />,
   },
   {
     name: "Reportar Issue",
     path: "report-issue",
-    icon: <BarChartIcon />
-  }
+    icon: <BarChartIcon />,
+  },
 ];
 
 const adminList = [
   {
     name: "Editar Usuario",
     path: "list",
-    icon: <PeopleIcon />
-  }
+    icon: <PeopleIcon />,
+  },
 ];
 
-function MaterialIconsList({ name, path, icon }, idx, absPath) {
+function MaterialIconsList({ item }) {
+  const { name, path, icon } = item;
   return (
-    <Link to={`${absPath}/${path}`} key={idx}>
+    <Link to={`${path}`}>
       <ListItem button>
         <ListItemIcon>{icon}</ListItemIcon>
         <ListItemText primary={name} />
@@ -66,20 +67,24 @@ async function logout() {
   }
 }
 
-export function mainListItems(absPath='/user') {
+export function mainListItems() {
   return (
-    <div>
-      {mainList.map((item, idx) => MaterialIconsList(item, idx, absPath))}
-    </div>
+    <React.Fragment>
+      {mainList.map((item, idx) => (
+        <MaterialIconsList item={item} key={idx} />
+      ))}
+    </React.Fragment>
   );
 }
 
-export function adminListItems(absPath='/user') {
+export function adminListItems() {
   return (
-    <div>
+    <React.Fragment>
       <ListSubheader inset>Panel de Administrador</ListSubheader>
-      {adminList.map((item, idx) => MaterialIconsList(item, idx, absPath))}
-    </div>
+      {adminList.map((item, idx) => (
+        <MaterialIconsList item={item} key={idx} />
+      ))}
+    </React.Fragment>
   );
 }
 

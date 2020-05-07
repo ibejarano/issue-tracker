@@ -1,77 +1,41 @@
-import React from 'react';
-import {Route, Switch} from 'react-router-dom';
+import React, { useState } from "react";
+import { Route, Switch } from "react-router-dom";
 
-import IssueLog from '../components/issue-log';
-import IssueDetails from '../components/issue-details';
-import IssueArchive from '../components/issue-archive';
-import ReportIssue from '../components/issue-report';
-import EditIssue from '../components/issue-edit';
-import UserList from '../components/admin/user-list';
-import Dashboard from '../components/user-dashboard';
-import Sidebar from '../components/sidebar';
-import Componentbar from '../components/componentbar';
+import ReportIssue from "../components/issue-report";
+import UserList from "../components/admin/user-list";
 
-export default function Home(props) {
-  const match = {
-    path: '/user'
-  };
-  const [open, setOpen] = React.useState(false);
+import Dashboard from "./dashboard";
+import IssueList from "./issue-list";
+import IssueArchive from "./archive";
+import IssueDetails from "./details";
 
-  const toggleOpen = () => {
-    setOpen(prev => !prev);
-  };
+import Layout from "../components/layout";
 
-  const {isAdmin} = props.user
-
+export default function Home({ user }) {
+  const { isAdmin } = user;
+  const [title, setTitle] = useState("Cargando ...");
   return (
-    <Switch>
-      <Route exact path={`${match.path}`}>
-        <RouteWrapper section="Inicio" open={open} handler={toggleOpen} isAdmin={isAdmin}>
-          <Dashboard />
-        </RouteWrapper>
-      </Route>
-      <Route path={`${match.path}/issue`} >
-        <RouteWrapper section="Issue Details" open={open} handler={toggleOpen} isAdmin={isAdmin}>
-          <IssueDetails isAdmin={isAdmin}/>
-        </RouteWrapper>
-      </Route>
-      <Route exact path={`${match.path}/issue-log`}>
-        <RouteWrapper section="Lista de Issues" open={open} handler={toggleOpen} isAdmin={isAdmin}>
-          <IssueLog isAdmin={isAdmin}/>
-        </RouteWrapper>
-      </Route>
-      <Route exact path={`${match.path}/issue-archive`}>
-        <RouteWrapper section="Issues Archivados" open={open} handler={toggleOpen} isAdmin={isAdmin}>
-          <IssueArchive isAdmin={isAdmin}/>
-        </RouteWrapper>
-      </Route>
-      <Route exact path={`${match.path}/list`}>
-        <RouteWrapper section="Lista de usuarios" open={open} handler={toggleOpen} isAdmin={isAdmin}>
-          <UserList />
-        </RouteWrapper>
-      </Route>
-      <Route
-        exact
-        path={`${match.path}/report-issue`}
-      >
-        <RouteWrapper section="Reportar nuevo Issue" open={open} handler={toggleOpen} isAdmin={isAdmin}>
-          <ReportIssue />
-        </RouteWrapper>
-      </Route>
-      <Route path={`${match.path}/issue-edit`}>
-        <RouteWrapper section="Reportar nuevo Issue" open={open} handler={toggleOpen} isAdmin={isAdmin}>
-          <EditIssue />
-        </RouteWrapper>
-      </Route>
-    </Switch>
-  );
-}
-
-function RouteWrapper({children, section, open, handler, isAdmin}) {
-  return (
-    <Sidebar handleClick={handler} open={open} isAdmin={isAdmin}>
-      <Componentbar section={section} open={open} />
-      {children}
-    </Sidebar>
+    <Layout isAdmin={isAdmin} title={title}>
+      <Switch>
+        <Route exact path="/">
+          <Dashboard user={user} setTitle={setTitle} />
+        </Route>
+        <Route path="/issue">
+          <IssueDetails isAdmin={isAdmin} setTitle={setTitle} />
+        </Route>
+        <Route exact path={"/issue-log"}>
+          <IssueList isAdmin={isAdmin} setTitle={setTitle} />
+        </Route>
+        <Route exact path={"/issue-archive"}>
+          <IssueArchive isAdmin={isAdmin} setTitle={setTitle} />
+        </Route>
+        <Route exact path={"/list"}>
+          <UserList setTitle={setTitle} />
+        </Route>
+        <Route exact path={"/report-issue"}>
+          <ReportIssue setTitle={setTitle} />
+        </Route>
+      </Switch>
+    </Layout>
   );
 }
