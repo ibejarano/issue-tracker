@@ -1,7 +1,11 @@
 {
   "name": "issue-tracker",
   "version": "1.0.0",
-  "description": "",
+  "description": "issue tracker MERN Stack",
+  "engines": {
+    "node": ">=13.0.0",
+    "npm": ">=6.0.0"
+  },
   "main": "server.js",
   "private": true,
   "scripts": {
