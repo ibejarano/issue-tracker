@@ -30,8 +30,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Form({ handleSubmit, error }) {
   const [formFields, setFormFields] = useState({
-    email: "admin@no",
-    password: "pass",
+    email: "admin@admin",
+    password: "admin",
   });
   const handleChange = (e) => {
     setFormFields({ ...formFields, [e.target.name]: e.target.value });

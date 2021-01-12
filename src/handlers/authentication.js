@@ -13,15 +13,18 @@ export const authenticationService = {
   removeSession,
 };
 
+
+const SERVER_URL = process.env.REACT_APP_SERVER_URL || 'localhost:5000'
+
 async function login(params) {
   try {
-    const { data } = await transport.post(
-      `${process.env.REACT_APP_SERVER_URL}/login`,
+    const res = await transport.post(
+      `${SERVER_URL}/login`,
       params
-    );
-    return { data };
+    )
+    return res.data;
   } catch (error) {
-    return { error: error.response.data };
+    return { error: "Error para logear"};
   }
 }
 
