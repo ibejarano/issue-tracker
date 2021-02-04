@@ -10,7 +10,7 @@ import HomePage from "./views/home";
 export default function App() {
   const storedUser = localStorage.getItem("issue-tracker-user");
   const parsedUser = storedUser ? JSON.parse(storedUser) : null;
-  const [user, setUser] = useState(parsedUser);
+  const [user, setUser] = useState(null);
 
   if (!user) {
     history.push("/login");
@@ -20,7 +20,7 @@ export default function App() {
     <Router history={history}>
       <Switch>
         <Route exact path="/login">
-          <Login setUser={setUser} />
+          <Login history={history} setUser={setUser} />
         </Route>
         <Route exact path="/signup">
           <UserRegisterForm />
