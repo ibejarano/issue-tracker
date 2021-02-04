@@ -73,6 +73,7 @@ UserSchema.statics.authenticate = async (email, password) => {
 
 UserSchema.methods.generateAuthToken = async function() {
   const user = this;
+  if (!process.env.JWT_KEY){throw new Error("JWT_KEY not setted")}
   const token = jwt.sign({ _id: user._id }, process.env.JWT_KEY);
   user.token = token;
   await user.save();
