@@ -13,8 +13,7 @@ export const authenticationService = {
   removeSession,
 };
 
-
-const SERVER_URL = process.env.REACT_APP_SERVER_URL || 'localhost:5000'
+const SERVER_URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:5000'
 
 async function login(params) {
   try {
@@ -22,7 +21,7 @@ async function login(params) {
       `${SERVER_URL}/login`,
       params
     )
-    return res.data;
+    return { data: res.data };
   } catch (error) {
     return { error: "Error para logear"};
   }
