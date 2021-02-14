@@ -15,27 +15,6 @@ export default function Home({ user }) {
   const { isAdmin } = user;
   const [title, setTitle] = useState("Cargando ...");
   return (
-    <Layout isAdmin={isAdmin} title={title}>
-      <Switch>
-        <Route exact path="/">
-          <Dashboard user={user} setTitle={setTitle} />
-        </Route>
-        <Route path="/issue">
-          <IssueDetails isAdmin={isAdmin} setTitle={setTitle} />
-        </Route>
-        <Route exact path={"/issue-log"}>
-          <IssueList isAdmin={isAdmin} setTitle={setTitle} />
-        </Route>
-        <Route exact path={"/issue-archive"}>
-          <IssueArchive isAdmin={isAdmin} setTitle={setTitle} />
-        </Route>
-        <Route exact path={"/list"}>
-          <UserList setTitle={setTitle} />
-        </Route>
-        <Route exact path={"/report-issue"}>
-          <ReportIssue setTitle={setTitle} />
-        </Route>
-      </Switch>
-    </Layout>
+
   );
 }

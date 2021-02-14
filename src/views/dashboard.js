@@ -12,17 +12,18 @@ export default function Dashboard({ user, setTitle }) {
   const [issues, setIssues] = useState([]);
   const [loading, setLoading] = useState(true);
   setTitle("Dashboard");
- /* 
+
   useEffect(() => {
     async function fetchData() {
       const data = await userHandler.getUserInfo();
+      console.log(data)
       const { issues } = data;
       setIssues(issues);
       setLoading(false);
     }
     fetchData();
   }, []);
-  */
+
   return (
     <Grid container spacing={3}>
       <Grid item xs={12} md={4} lg={3}>

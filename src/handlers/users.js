@@ -19,7 +19,6 @@ export const userHandler = {
 
 async function getUserInfo() {
   try {
-    console.log("getting all the info!");
     let { data } = await axios.get(serverUrl + "/user/info", options);
     return data;
   } catch (error) {
