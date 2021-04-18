@@ -59,9 +59,8 @@ function MaterialIconsList({ item }) {
 async function logout() {
   try {
     console.log("Logging out");
-    const res = await userHandler.logout();
-    console.log(res);
-    window.location = "/";
+    await userHandler.logout();
+    window.location = "/login";
   } catch (error) {
     console.log(error.toString());
   }

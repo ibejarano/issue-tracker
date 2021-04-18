@@ -24,7 +24,6 @@ async function getUserInfo() {
   } catch (error) {
     console.log("Error ocurred get user info.", error.toString());
     await logout();
-    window.location = "/login";
     return error;
   }
 }

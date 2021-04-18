@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function LoginPage({ setUser, history }) {
+export default function LoginPage({ setUser, history, user }) {
   const classes = useStyles();
   const [error, setError] = useState(null);
 
@@ -39,9 +39,12 @@ export default function LoginPage({ setUser, history }) {
     } else {
       localStorage.setItem("issue-tracker-user", JSON.stringify(data));
       setUser(data);
-      history.push("/")
     }
   };
+
+  if (user) {
+    history.push("/");
+  }
 
   return (
     <Container component="main" maxWidth="xs">

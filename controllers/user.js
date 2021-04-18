@@ -79,6 +79,7 @@ exports.logout = async (req, res) => {
     req.user.token = req.body.token;
     await req.user.save();
     console.log("[Controller User]: Logout succesful!");
+    res.clearCookie("Issue-tracker-cookie");
     res.status(200).json("Logout succesful!");
   } catch (error) {
     console.log("[Controller User]: error.toString()");
