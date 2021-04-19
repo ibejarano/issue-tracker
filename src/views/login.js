@@ -1,13 +1,17 @@
 import React, { useState } from "react";
-import { authenticationService } from "../handlers/authentication";
-
-// Material ui components
-import Avatar from "@material-ui/core/Avatar";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import {
+  Container,
+  Link,
+  Grid,
+  CssBaseline,
+  Avatar,
+  Typography,
+  makeStyles,
+} from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
+import { Link as RouterLink } from "react-router-dom";
+
+import { authenticationService } from "../handlers/authentication";
 import Form from "../components/commons/Form";
 
 const useStyles = makeStyles((theme) => ({
@@ -57,6 +61,13 @@ export default function LoginPage({ setUser, history, user }) {
           Log in
         </Typography>
         <Form handleSubmit={handleSubmit} error={error} />
+        <Grid container>
+          <Grid item>
+            <RouterLink to="/signup">
+              {"No tiene cuenta? Registrese"}
+            </RouterLink>
+          </Grid>
+        </Grid>
       </div>
     </Container>
   );

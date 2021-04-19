@@ -4,7 +4,7 @@ import "./App.css";
 import { history } from "./helpers/history";
 import { userHandler } from "./handlers/users";
 
-import UserRegisterForm from "./views/register";
+import Register from "./views/register";
 import Login from "./views/login";
 
 import ReportIssue from "./components/issue-report";
@@ -24,6 +24,7 @@ export default function App() {
   const [title, setTitle] = useState("Bienvenido!");
 
   if (!user) {
+    console.log("Al lobby pete!");
     history.push("/login");
   }
 
@@ -35,6 +36,7 @@ export default function App() {
       }
       setLoading(false);
     }
+    console.log("porque haces esto")
 
     fetchData();
   }, []);
@@ -47,10 +49,10 @@ export default function App() {
         <Route exact path="/login">
           <Login history={history} setUser={setUser} user={user} />
         </Route>
+        <Route exact path="/signup">
+          <Register />
+        </Route>
         <Layout isAdmin={isAdmin} title={title}>
-          <Route exact path="/signup">
-            <UserRegisterForm />
-          </Route>
           <Route exact path="/">
             <Dashboard user={user} setTitle={setTitle} />
           </Route>
