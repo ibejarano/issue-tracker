@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
+import { toast } from "react-toastify";
 import {
   Container,
-  Link,
   Grid,
   CssBaseline,
   Avatar,
@@ -34,15 +34,20 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LoginPage({ setUser, history, user }) {
   const classes = useStyles();
-  const [error, setError] = useState(null);
 
   const handleSubmit = async (params) => {
     const { data, error } = await authenticationService.login(params);
     if (error) {
-      setError(error);
+      toast.error("Ocurrio un error. Intente nuevamente.");
     } else {
       localStorage.setItem("issue-tracker-user", JSON.stringify(data));
-      setUser(data);
+      toast.success("Log in satisfactorio!. Redirigiendo...", {
+        position: "bottom-center",
+        autoClose: 2000,
+      });
+      setTimeout(() => {
+        setUser(data);
+      }, 2000);
     }
   };
 
@@ -60,7 +65,7 @@ export default function LoginPage({ setUser, history, user }) {
         <Typography component="h1" variant="h5">
           Log in
         </Typography>
-        <Form handleSubmit={handleSubmit} error={error} />
+        <Form handleSubmit={handleSubmit} />
         <Grid container>
           <Grid item>
             <RouterLink to="/signup">

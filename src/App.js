@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Router, Route, Switch } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+
 import "./App.css";
+import "react-toastify/dist/ReactToastify.css";
 import { history } from "./helpers/history";
 import { userHandler } from "./handlers/users";
 
@@ -23,8 +26,8 @@ export default function App() {
   const isAdmin = false;
   const [title, setTitle] = useState("Bienvenido!");
 
+
   if (!user) {
-    console.log("Al lobby pete!");
     history.push("/login");
   }
 
@@ -36,7 +39,6 @@ export default function App() {
       }
       setLoading(false);
     }
-    console.log("porque haces esto")
 
     fetchData();
   }, []);
@@ -73,6 +75,7 @@ export default function App() {
           </Route>
         </Layout>
       </Switch>
+      <ToastContainer />
     </Router>
   );
 }

@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { history } from "../helpers/history";
 import { Link as RouterLink } from "react-router-dom";
+
 import {
   Avatar,
   Button,
   CssBaseline,
   TextField,
-  Link,
   Grid,
   Typography,
   makeStyles,
@@ -69,10 +71,15 @@ export default function Register(props) {
     const params = { username, email, password, passwordConf };
 
     try {
-      const res = axios.post("http://localhost:5000/register", params);
-      console.log(res);
-      props.history.push("/");
+      await axios.post("http://localhost:5000/register", params);
+      toast.success("Nuevo usuario registrado! Ingrese con su cuenta", {
+        position: "bottom-center",
+      });
+      history.push("/login");
     } catch (error) {
+      toast.error("Ha ocurrido un error intente nuevamente", {
+        position: "bottom-center",
+      });
       console.log(error);
     }
   };
