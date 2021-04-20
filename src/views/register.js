@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { history } from "../helpers/history";
 import { Link as RouterLink } from "react-router-dom";
@@ -15,6 +14,7 @@ import {
   Container,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import { authenticationService } from "../handlers/authentication";
 
 const useStyles = makeStyles((theme) => ({
   "@global": {
@@ -69,18 +69,16 @@ export default function Register(props) {
     e.preventDefault();
 
     const params = { username, email, password, passwordConf };
-
-    try {
-      await axios.post("http://localhost:5000/register", params);
-      toast.success("Nuevo usuario registrado! Ingrese con su cuenta", {
+    const { data, error } = await authenticationService.register(params);
+    if (error) {
+      toast.error("Ocurrio un error. Intente nuevamente.");
+    } else {
+      alert(data)
+      toast.success(data, {
         position: "bottom-center",
+        autoClose: 2000,
       });
       history.push("/login");
-    } catch (error) {
-      toast.error("Ha ocurrido un error intente nuevamente", {
-        position: "bottom-center",
-      });
-      console.log(error);
     }
   };
 
