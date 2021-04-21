@@ -9,7 +9,6 @@ import DashboardIcon from "@material-ui/icons/Dashboard";
 import PeopleIcon from "@material-ui/icons/People";
 import ListAltIcon from "@material-ui/icons/ListAlt";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import BarChartIcon from "@material-ui/icons/BarChart";
 import ArchiveIcon from "@material-ui/icons/Archive";
 import { userHandler } from "../../handlers/users";
 
@@ -28,11 +27,6 @@ const mainList = [
     name: "Issues Archivados",
     path: "issue-archive",
     icon: <ArchiveIcon />,
-  },
-  {
-    name: "Reportar Issue",
-    path: "report-issue",
-    icon: <BarChartIcon />,
   },
 ];
 

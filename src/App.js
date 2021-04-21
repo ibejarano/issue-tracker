@@ -10,7 +10,6 @@ import { userHandler } from "./handlers/users";
 import Register from "./views/register";
 import Login from "./views/login";
 
-import ReportIssue from "./components/issue-report";
 import UserList from "./components/admin/user-list";
 import Layout from "./components/layout";
 
@@ -69,9 +68,6 @@ export default function App() {
           </Route>
           <Route exact path={"/list"}>
             <UserList setTitle={setTitle} />
-          </Route>
-          <Route exact path={"/report-issue"}>
-            <ReportIssue setTitle={setTitle} />
           </Route>
         </Layout>
       </Switch>

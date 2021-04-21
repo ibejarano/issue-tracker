@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import { issuesHandler } from "../handlers/issues";
 import { issueTypes, priorities, statusTypes } from "../helpers/issueOptions";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -12,8 +11,6 @@ import TextField from "@material-ui/core/TextField";
 import Select from "@material-ui/core/Select";
 
 import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles((theme) => ({
   "@global": {
@@ -51,120 +48,98 @@ function createOptionTags(opt, idx) {
   );
 }
 
-export default function ReportBugForm(props) {
-  props.setTitle("Agregar nuevo Issue");
+export default function AddIssueForm({ onSubmit }) {
   const classes = useStyles();
-  const [issueType, setIssueType] = useState("");
-  const [priority, setPriority] = useState("");
   const [issueTitle, setIssueTitle] = useState("");
-  const [status, setStatus] = useState("Nuevo");
+  const [issue, setIssue] = useState({
+    type: "",
+    priority: "",
+    status: "Nuevo",
+  });
 
-  const handleIssueChange = (e) => {
-    setIssueType(e.target.value);
+  const handleChange = (e) => {
+    setIssue((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handlePriorityChange = (e) => {
-    setPriority(e.target.value);
-  };
-
-  const handleStatusChange = (e) => {
-    setStatus(e.target.value);
-  };
-
-  const handleIssueTitleChange = (e) => {
+  const handleText = (e) => {
     setIssueTitle(e.target.value);
   };
 
-  const onSubmit = async function (e) {
-    e.preventDefault();
-    const params = {
-      priority,
-      type: issueType,
-      status,
-      title: issueTitle,
-    };
-    try {
-      const res = await issuesHandler.add(params);
-      if (res.status === 200) {
-        window.location = "/issue-log";
-      }
-    } catch (error) {
-      console.log(error.toString());
-    }
-  };
+  const { type, priority, status } = issue;
 
   const issueTypeOptions = issueTypes.map(createOptionTags);
   const priorityOptions = priorities.map(createOptionTags);
   const statusOptions = statusTypes.map(createOptionTags);
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <form className={classes.form} onSubmit={onSubmit}>
-          <FormControl className={classes.formControl} fullWidth required>
-            <InputLabel>Tipo</InputLabel>
-            <Select
-              value={issueType}
-              onChange={handleIssueChange}
-              className={classes.selectEmpty}
-            >
-              <MenuItem value="">
-                <em>Nada</em>
-              </MenuItem>
-              {issueTypeOptions}
-            </Select>
-          </FormControl>
+    <form
+      className={classes.form}
+      onSubmit={(e) => onSubmit(e, issue, issueTitle)}
+    >
+      <FormControl className={classes.formControl} fullWidth required>
+        <InputLabel>Tipo</InputLabel>
+        <Select
+          name="type"
+          value={type}
+          onChange={handleChange}
+          className={classes.selectEmpty}
+        >
+          <MenuItem value="">
+            <em>Nada</em>
+          </MenuItem>
+          {issueTypeOptions}
+        </Select>
+      </FormControl>
 
-          <FormControl className={classes.formControl} fullWidth required>
-            <InputLabel>Prioridad</InputLabel>
-            <Select
-              value={priority}
-              onChange={handlePriorityChange}
-              className={classes.selectEmpty}
-            >
-              <MenuItem value="">
-                <em>Nada</em>
-              </MenuItem>
-              {priorityOptions}
-            </Select>
-          </FormControl>
+      <FormControl className={classes.formControl} fullWidth required>
+        <InputLabel>Prioridad</InputLabel>
+        <Select
+          name="priority"
+          value={priority}
+          onChange={handleChange}
+          className={classes.selectEmpty}
+        >
+          <MenuItem value="">
+            <em>Nada</em>
+          </MenuItem>
+          {priorityOptions}
+        </Select>
+      </FormControl>
 
-          <FormControl className={classes.formControl} fullWidth required>
-            <InputLabel>Estado</InputLabel>
-            <Select
-              value={status}
-              onChange={handleStatusChange}
-              className={classes.selectEmpty}
-            >
-              <MenuItem value="">
-                <em>Nada</em>
-              </MenuItem>
-              {statusOptions}
-            </Select>
-          </FormControl>
+      <FormControl className={classes.formControl} fullWidth required>
+        <InputLabel>Estado</InputLabel>
+        <Select
+          name="status"
+          value={status}
+          onChange={handleChange}
+          className={classes.selectEmpty}
+        >
+          <MenuItem value="">
+            <em>Nada</em>
+          </MenuItem>
+          {statusOptions}
+        </Select>
+      </FormControl>
 
-          <TextField
-            required
-            fullWidth
-            onChange={handleIssueTitleChange}
-            label="Titulo"
-            className={classes.textField}
-            margin="normal"
-            value={issueTitle}
-          />
-          <FormHelperText> (*) Campo Obligatorio</FormHelperText>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Reportar
-          </Button>
-        </form>
-      </div>
-    </Container>
+      <TextField
+        required
+        fullWidth
+        name="title"
+        onChange={handleText}
+        label="Titulo"
+        className={classes.textField}
+        value={issueTitle}
+      />
+      <FormHelperText> (*) Campo Obligatorio</FormHelperText>
+      <Button
+        type="submit"
+        fullWidth
+        variant="contained"
+        color="primary"
+        className={classes.submit}
+      >
+        Reportar
+      </Button>
+    </form>
   );
 }
