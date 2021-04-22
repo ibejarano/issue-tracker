@@ -12,14 +12,17 @@ import IssueInfoCard from "../IssueInfoCard";
 
 const useStyles = makeStyles({
   card: {
-    minWidth: 275,
     marginTop: "10px",
   },
   title: {
     fontSize: 14,
   },
-  pos: {
-    marginBottom: "40px",
+  headerContainer: {
+    display: "flex",
+    flexFlow: "row nowrap",
+    justifyContent: "space-between",
+    borderBottom: "1px solid grey",
+    marginBottom: "16px"
   },
 });
 
@@ -42,12 +45,14 @@ export default function CommentssCard({ comments, assignee }) {
           {isCommentAuthorAssignee(comment, assignee) && (
             <Chip color="primary" label="Asignee" />
           )}
-          <Typography color="textPrimary">
-            {comment.author} - <span />
-          </Typography>
-          <Typography className={classes.pos} color="textSecondary">
-            {getIsoDate(comment.date)}
-          </Typography>
+          <div className={classes.headerContainer}>
+            <Typography color="textPrimary" variant="h6">
+              {comment.author}
+            </Typography>
+            <Typography color="textSecondary">
+              {getIsoDate(comment.date)}
+            </Typography>
+          </div>
           <Typography component="p">{comment.text}</Typography>
           {comment.updateStatus && (
             <IssueInfoCard info={comment.updateStatus} />
