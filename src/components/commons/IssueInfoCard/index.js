@@ -8,10 +8,10 @@ import Paper from "@material-ui/core/Paper";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    justifyContent: "start",
+    justifyContent: "space-around",
     flexWrap: "wrap",
     padding: theme.spacing(0.5),
-    backgroundColor: "inherit",
+    backgroundColor: "white",
   },
   title: {
     color: "white",
@@ -42,27 +42,24 @@ export default function IssueInfoCard({ info, editIssueUrl }) {
 
   return (
     <Paper className={classes.root}>
-      <div className={classes.title}>{title}</div>
-      <div className={classes.root}>
-        {chipData.map((data) => {
-          return (
-            <Chip
-              key={data.key}
-              label={data.title + ": " + data.label}
-              className={classes.chip}
-            />
-          );
-        })}
-        {editIssueUrl && (
-          <Link to={editIssueUrl}>
-            <Chip
-              key="admin-chip"
-              label="Edit Issue"
-              className={classes.chipAdmin}
-            />
-          </Link>
-        )}
-      </div>
+      {chipData.map((data) => {
+        return (
+          <Chip
+            key={data.key}
+            label={data.title + ": " + data.label}
+            className={classes.chip}
+          />
+        );
+      })}
+      {editIssueUrl && (
+        <Link to={editIssueUrl}>
+          <Chip
+            key="admin-chip"
+            label="Edit Issue"
+            className={classes.chipAdmin}
+          />
+        </Link>
+      )}
     </Paper>
   );
 }
