@@ -44,6 +44,16 @@ Iniciar en modo development
 $ npm run start
 ```
 
+Asociar a una cuenta de MongoDb Atlas y colocar la URI en un archivo `.env` en la carpeta raiz
+```
+ATLAS_URI=
+```
+
+Y una clave JWT
+```
+JWT_KEY=
+```
+
 ---
 
 ## Equipo
