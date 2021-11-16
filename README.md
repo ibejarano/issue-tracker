@@ -54,6 +54,11 @@ Y una clave JWT
 JWT_KEY=
 ```
 
+Y la direccion del servidor debe ser configurada como:
+```
+REACT_APP_SERVER_URL=
+```
+
 ---
 
 ## Equipo
